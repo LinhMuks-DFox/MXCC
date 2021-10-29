@@ -4,7 +4,13 @@
 
 #ifndef MXCC_MXCC_HPP
 #define MXCC_MXCC_HPP
-#if __cplusplus < 201103l
+// ensure cpp is usable
+#ifndef __cplusplus
+#error "C++ complier required."
+#endif
+
+// ensure cpp std11 is usable
+#if __cplusplus < 201103L
 #error "At least C++11 or higher required"
 #endif
 

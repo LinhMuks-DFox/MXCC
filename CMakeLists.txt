@@ -4,6 +4,13 @@ project(MXCC)
 set(CMAKE_CXX_STANDARD 14)
 
 add_library(MXCC SHARED tester_main.cpp
-        utl/_object.hpp utl/_config.hpp utl/math/math.hpp utl/MXCC.hpp)
+        utl/MXCC.hpp
+
+        utl/_object.hpp
+        utl/_config.hpp
+
+        utl/math/math.hpp)
 
 add_executable(Tester tester_main.cpp)
+
+target_link_libraries(Tester MXCC)

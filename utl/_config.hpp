@@ -27,4 +27,10 @@ namespace MXCC {
     typedef std::uint32_t uint32;
     typedef std::uint32_t uint64;
 }
+
+#if __cplusplus >= 202002L
+#include <format>
+namespace MXCC{
+    using std::format;
+}
 #endif //MXCC__OBJECT_CPP
