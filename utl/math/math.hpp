@@ -7,48 +7,48 @@
 
 #include "../_config.hpp"
 // to check if compiler using IEEE-754
-#if __DBL_DIG__ != 15 || __DBL_MANT_DIG__ != 53 || __DBL_MAX_10_EXP__ != 308 || __DBL_MAX_EXP__ != 1024 || __DBL_MIN_10_EXP__ != -307 || __DBL_MIN_EXP__ != -1021
+#if __DBL_DIG__ != 15 || __DBL_MANT_DIG__ != 53 \
+    || __DBL_MAX_10_EXP__ != 308 || __DBL_MAX_EXP__ != 1024 \
+    || __DBL_MIN_10_EXP__ != -307 || __DBL_MIN_EXP__ != -1021
 #error "Requires IEEE 754 floating point"
 #endif
-#define IEEE_SPECIAL_FLOAT_UNION union {uint32 i; float y;}
-namespace MXCC {
-
-    static inline float inff() {
+namespace MXCC::math {
+    static inline float32 inffnity() {
         const union {
-            uint32_t i;
-            float y;
+            uint32 i;
+            float32 y;
         } __f{0x7f800000UL};
         return __f.y;
     }
 
-    static inline float nan() {
+    static inline float32 nan() {
         const union {
-            uint32_t i;
-            float y;
+            uint32 i;
+            float32 y;
         } __f{0x7fc00000UL};
         return __f.y;
     }
 
-    static inline float p_zero() {
+    static inline float32 p_zero() {
         const union {
-            uint32_t i;
-            float y;
+            uint32 i;
+            float32 y;
         } __f{0x00000000UL};
         return __f.y;
     }
 
-    static inline float n_zero() {
+    static inline float32 n_zero() {
         const union {
-            uint32_t i;
-            float y;
+            uint32 i;
+            float32 y;
         } __f{0x80000000UL};
         return __f.y;
     }
 
-    static inline float n_inff() {
+    static inline float32 n_inff() {
         const union {
-            uint32_t i;
-            float y;
+            uint32 i;
+            float32 y;
         } __f{0xff800000ul};
         return __f.y;
     }

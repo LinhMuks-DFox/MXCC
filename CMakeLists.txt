@@ -9,7 +9,7 @@ add_library(MXCC SHARED tester_main.cpp
         utl/_object.hpp
         utl/_config.hpp
 
-        utl/math/math.hpp)
+        utl/math/math.hpp utl/String.hpp)
 
 add_executable(Tester tester_main.cpp)
 

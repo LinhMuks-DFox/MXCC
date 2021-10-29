@@ -15,7 +15,7 @@
 #include <limits>
 
 namespace MXCC {
-    typedef std::string cv_str_t; // current version string
+    typedef std::string gl_str; // global basic string. now is std::string.
 
     typedef std::int8_t int8;
     typedef std::int16_t int16;
@@ -26,6 +26,10 @@ namespace MXCC {
     typedef std::uint16_t uint16;
     typedef std::uint32_t uint32;
     typedef std::uint32_t uint64;
+
+    typedef float float32;
+    typedef double float64;
+
 }
 
 #if __cplusplus >= 202002L
