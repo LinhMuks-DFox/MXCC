@@ -1,5 +1,5 @@
-#ifndef MXCC__OBJECT_HPP
-#define MXCC__OBJECT_HPP
+#ifndef MXC__OBJECT_HPP
+#define MXC__OBJECT_HPP
 
 #if __cplusplus <= 202003L
 
@@ -8,7 +8,7 @@
 #else
 #include <_config.hpp>
 #endif
-namespace MXCC {
+namespace MXC {
     struct Type {
         gl_str type_name;
         uint32 generation;
@@ -16,10 +16,15 @@ namespace MXCC {
     class object {
         Type my_type {"objcet", 0};
 
-        virtual gl_str to_string() {
+        [[nodiscard]] virtual gl_str to_string() const {
             return my_type.type_name;
+        }
+
+        friend std::ostream& operator<<(std::ostream& os, const MXC::object& obj) {
+            os << obj.to_string();
+            return os;
         }
     };
 }
 
-#endif //MXCC__OBJECT_HPP
+#endif //MXC__OBJECT_HPP

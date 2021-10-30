@@ -1,5 +1,6 @@
-# MXCC
+# MXC
 Also named mcc, a C++ library that natively supports rtti.  
+Not only a usable library, but also a quick reference manual for mux.  
 
 ### urls  
 To see [coding style conventions](./orther/code_style.md)  

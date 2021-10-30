@@ -2,19 +2,47 @@
 // Created by Mux on 2021/10/25.
 //
 
-#ifndef MXCC__OBJECT_CPP
-#define MXCC__OBJECT_CPP
+#ifndef MXC__OBJECT_CPP
+#define MXC__OBJECT_CPP
+
+// ensure cpp is usable
+#ifndef __cplusplus
+#error "C++ complier required."
+#endif
+
+// ensure cpp std11 is usable
+#if __cplusplus < 201703L
+#error "At least C++11 or higher required"
+#endif
 
 #include <string>
 #include <exception>
 #include <cstdint>
 #include <cstdlib>
-#include <cstdlib>
 #include <functional>
 #include <iostream>
 #include <limits>
+#include <bitset>
+#include <cstdio>
+#pragma region OS_MACRO
 
-namespace MXCC {
+#if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)// only windows64 defined _WIN64,
+#endif
+
+#if defined(uinix) || defined(__unix__) || defined(__unix) // for unix/linux/macos
+#endif
+
+#if defined(__APPLE__) || defined(__MACH__) // For mac-os
+#endif
+
+#if defined(__ANDROID__) // for android
+#endif
+
+#if defined(__linux) || defined(linux) || defined(__linux) // for linux
+#endif
+#pragma endregion
+
+namespace MXC {
     typedef std::string gl_str; // global basic string. now is std::string.
 
     typedef std::int8_t int8;
@@ -34,7 +62,8 @@ namespace MXCC {
 
 #if __cplusplus >= 202002L
 #include <format>
-namespace MXCC{
+namespace MXC{
     using std::format;
 }
-#endif //MXCC__OBJECT_CPP
+#endif //__cplusplus
+#endif // MXC__CONFIG
