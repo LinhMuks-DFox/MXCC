@@ -10,13 +10,13 @@
 #endif
 namespace MXCC {
     struct Type {
-        cv_str_t type_name;
-
+        gl_str type_name;
+        uint32 generation;
     }; // for RTTI
     class object {
-        Type my_type{};
+        Type my_type {"objcet", 0};
 
-        virtual cv_str_t to_string() {
+        virtual gl_str to_string() {
             return my_type.type_name;
         }
     };

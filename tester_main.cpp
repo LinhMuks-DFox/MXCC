@@ -5,6 +5,6 @@
 
 int main() {
 
-    std::cout << MXCC::inff() << std::endl;
+    std::cout << MXCC::inffinity() << std::endl;
     return 0;
 }
