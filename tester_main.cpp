@@ -5,6 +5,6 @@
 
 int main() {
 
-    std::cout << MXC::inffinity() << std::endl;
+    std::cout << MXC::Math::infinity() << std::endl;
     return 0;
 }
