@@ -24,6 +24,7 @@
 #include <limits>
 #include <bitset>
 #include <cstdio>
+#include <hash>
 #pragma region OS_MACRO
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)// only windows64 defined _WIN64,
@@ -53,10 +54,12 @@ namespace MXC {
     typedef std::uint8_t uint8;
     typedef std::uint16_t uint16;
     typedef std::uint32_t uint32;
-    typedef std::uint32_t uint64;
-
+    typedef std::uint64_t uint64;
+    typedef std::uint64_t hash_code;
     typedef float float32;
     typedef double float64;
+
+
 
 }
 

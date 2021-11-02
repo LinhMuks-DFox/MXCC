@@ -42,6 +42,11 @@ namespace MXC {
             return this->my_type;
         }
 
+        virtual MXC::hash_code  get_hash(){
+            std::hash<object*> h;
+            return h(this);
+        }
+
         friend std::ostream &operator<<(std::ostream &os, const MXC::object &obj) {
             os << obj.to_string();
             return os;
