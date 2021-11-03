@@ -15,16 +15,21 @@ namespace MXC {
     }; // for RTTI
     class object {
     protected:
-        Type my_type{"MXC::object", 0};
+        bool constructed_obj = false;
+        Type my_type{};
 
         explicit object(const char *const type) {
             this->my_type.type_name = type;
             this->my_type.generation = 1;
+            this->constructed_obj = true;
         }
 
     public:
 
-        explicit object() = default;
+        explicit object() {
+            my_type.type_name = "MXC::object";
+            my_type.generation = 0;
+        };
 
 
         ~object() = default;
@@ -32,6 +37,7 @@ namespace MXC {
         object(const char *const my_type, uint32 generation) {
             this->my_type.type_name = my_type;
             this->my_type.generation = generation;
+            this->constructed_obj = true;
         }
 
         [[nodiscard]] virtual gl_str to_string() const {
@@ -42,8 +48,8 @@ namespace MXC {
             return this->my_type;
         }
 
-        virtual MXC::hash_code  get_hash(){
-            std::hash<object*> h;
+        virtual MXC::hash_code get_hash() {
+            std::hash<object *> h;
             return h(this);
         }
 
@@ -52,6 +58,12 @@ namespace MXC {
             return os;
         }
     };
+
+    template<typename Father, typename Son>
+    bool is_instance(const Son &obj) {
+        Father f;
+        return f.get_type() == obj.get_type();
+    }
     // [[maybe_unused]] static const object ROOT_OBJ("MXC::object", 0);
 }
 
