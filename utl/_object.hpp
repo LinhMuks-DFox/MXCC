@@ -1,13 +1,9 @@
 #ifndef MXC__OBJECT_HPP
 #define MXC__OBJECT_HPP
 
-#if __cplusplus <= 202003L
 
-#import "_config.hpp"
+#include "_config.hpp"
 
-#else
-#include <_config.hpp>
-#endif
 namespace MXC {
     struct Type {
         gl_str type_name;
@@ -34,26 +30,25 @@ namespace MXC {
 
         ~object() = default;
 
-        object(const char *const my_type, uint32 generation) {
+        object(const gl_str &my_type, uint32 generation) {
             this->my_type.type_name = my_type;
             this->my_type.generation = generation;
             this->constructed_obj = true;
         }
 
-        [[nodiscard]] virtual gl_str to_string() const {
+        [[nodiscard]] virtual gl_str to_string() const noexcept {
             return my_type.type_name;
         }
 
-        virtual Type get_type() {
+        [[nodiscard]] virtual Type get_type() const noexcept {
             return this->my_type;
         }
 
-        virtual MXC::hash_code get_hash() {
-            std::hash<object *> h;
-            return h(this);
+        [[nodiscard]] virtual MXC::hash_code get_hash() const noexcept {
+            return reinterpret_cast<size_t>(this);
         }
 
-        friend std::ostream &operator<<(std::ostream &os, const MXC::object &obj) {
+        friend std::ostream &operator<<(std::ostream &os, const MXC::object &obj) noexcept {
             os << obj.to_string();
             return os;
         }

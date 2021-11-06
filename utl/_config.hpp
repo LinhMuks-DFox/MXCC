@@ -24,7 +24,10 @@
 #include <limits>
 #include <bitset>
 #include <cstdio>
-#include <hash>
+#include <fstream>
+#include <sstream>
+#include <memory>
+#include <iomanip>
 #pragma region OS_MACRO
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)// only windows64 defined _WIN64,
@@ -59,10 +62,22 @@ namespace MXC {
     typedef float float32;
     typedef double float64;
 
+    typedef std::uint64_t memory_length;
 
+    template<class T>
+    inline T *memory_static_allocate(memory_length length = 1, bool help_init = false) noexcept {
+        T *ret = (T *) new char[sizeof(T) * length];
+        if (help_init) for (memory_length p = 0; p < length; ++p) new(ret + p) T(); // placement new;
+        return ret;
+    }
 
+    template<class Ty>
+    inline void static_free_memory(Ty **ptr, bool help_finalize = false, memory_length length = 0) noexcept {
+        if (help_finalize) for (memory_length p = 0; p < length; ++p) (*ptr)[p].~Ty(); // placement delete;
+        delete[] (char *) *ptr;
+        *ptr = nullptr;
+    }
 }
-
 #if __cplusplus >= 202002L
 #include <format>
 namespace MXC{
