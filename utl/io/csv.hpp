@@ -84,10 +84,41 @@ namespace MXC::IO {
         ~CSVReader() = default;
 
     public:
-        [[nodiscard]] const std::vector<gl_str> &get_raw(uint64 raw_idx) const {
+        [[nodiscard]] const std::vector<gl_str> &operator[](uint64 raw_idx) const {
             if (raw_idx > _raws.size())
                 throw Exp::InvalidArgumentError("CSVReader.get_raw(uint64 raw_idx) failed. raw_idx is out of range.");
             return _raws[raw_idx];
+        }
+
+        void get_col(std::vector<gl_str> &v, uint64 col_idx) const noexcept {
+            if (col_idx > _maximum_col) {
+                return;
+            }
+            for (const std::vector<gl_str> &raw: _raws) {
+                if (raw.size() < col_idx) {
+                    continue;
+                }
+                v.push_back(raw.at(col_idx));
+            }
+
+        }
+
+        void get_col_by_title(const gl_str &title, std::vector<gl_str> &v) const {
+            get_col(v, [this, &title] {
+                for (uint64 i = 0; i < this->_raws[0].size(); ++i)
+                    if (_raws[0][i] == title) return i;
+                throw Exp::InvalidArgumentError("Can not find title:" + title);
+            }());
+        }
+
+        void get_raw_by_first_col(const gl_str &first_col, std::vector<gl_str> &v) const {
+            auto i = _raws.at([this, &first_col] {
+                for (uint64 i = 0; i < _raws.size(); ++i)
+                    if (_raws[i][0] == first_col)
+                        return i;
+                throw Exp::InvalidArgumentError("Can not find raw:" + first_col);
+            }());
+            std::copy(i.begin(), i.end(), std::back_inserter(v));
         }
 
         [[nodiscard]] uint64 raw_cnt() const noexcept { return _raws.size(); }
@@ -95,7 +126,7 @@ namespace MXC::IO {
         [[nodiscard]] uint64 maximum_col() const noexcept { return _maximum_col; }
 
         [[nodiscard]] gl_str get_content(csv_coordinates c) const {
-            return this->get_raw(c.raw).at(c.col);
+            return _raws[c.raw][c.col];
         }
     };
 
