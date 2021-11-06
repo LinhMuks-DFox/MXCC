@@ -3,15 +3,10 @@
 //
 #include "utl/MXC.hpp"
 
-using namespace MXC;using namespace std;;
+using namespace MXC; using namespace std;
 
 int main() {
     IO::CSVReader reader(R"(G:\MXCC\utl\io\test\csv_tester.csv)");
-    // cout << reader;
-    std::vector<gl_str> col;
-    reader.get_raw_by_first_col("Linky", col);
-    for (gl_str &s: col) {
-        cout << s << ", ";
-    }
+    cout << reader.get_content({1, 3}) << endl;
     return 0;
 }

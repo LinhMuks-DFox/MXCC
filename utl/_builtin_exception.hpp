@@ -57,5 +57,14 @@ namespace MXC::Exp {
         explicit IOError(const gl_str &msg) :
                 BaseException(msg, "MXC::Exp::IOError", 2) {}
     };
+
+    class UnImplementedError : public BaseException {
+    public:
+        explicit UnImplementedError(const char *const msg) :
+                BaseException(msg, "MXC::Exp::UnImplementedError", 2) {}
+
+        explicit UnImplementedError(const gl_str &msg) :
+                BaseException(msg, "MXC::Exp::UnImplementedError", 2) {}
+    };
 }
 #endif //MXC__BUILTIN_EXCEPTION_HPP

@@ -125,9 +125,7 @@ namespace MXC::IO {
 
         [[nodiscard]] uint64 maximum_col() const noexcept { return _maximum_col; }
 
-        [[nodiscard]] gl_str get_content(csv_coordinates c) const {
-            return _raws[c.raw][c.col];
-        }
+        [[nodiscard]] gl_str get_content(csv_coordinates c) const { return _raws[c.raw][c.col]; }
     };
 
     class CSVWriter : public object {
