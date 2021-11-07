@@ -18,12 +18,10 @@ namespace MXC::IO {
         std::vector<std::vector<gl_str>> _raws{};
         uint64 _maximum_col = 0;
         csv_coordinates _iter_step{0, 0};
-
     private:
         void _reset_me() {
             _raws.clear();
         }
-
 
         void parse() {
             auto *_f_in = new std::ifstream(_path, std::ios::in);
@@ -43,6 +41,7 @@ namespace MXC::IO {
             }
             _f_in->close();
             delete _f_in;
+
         }
 
     public:
@@ -125,7 +124,7 @@ namespace MXC::IO {
 
         [[nodiscard]] uint64 maximum_col() const noexcept { return _maximum_col; }
 
-        [[nodiscard]] gl_str get_content(csv_coordinates c) const { return _raws[c.raw][c.col]; }
+        [[nodiscard]] gl_str query_content(csv_coordinates c) const { return _raws[c.raw][c.col]; }
     };
 
     class CSVWriter : public object {
