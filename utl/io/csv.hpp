@@ -24,7 +24,6 @@ namespace MXC::IO {
             _raws.clear();
         }
 
-
         void parse() {
             auto *_f_in = new std::ifstream(_path, std::ios::in);
             if (!_f_in->is_open())throw Exp::IOError("CSVReader failed to open file:" + _path);

@@ -8,5 +8,5 @@
 
 #include "String.hpp"
 #include "io/csv.hpp"
-
+#include "io/logger.hpp"
 #endif //MXC_MXC_HPP

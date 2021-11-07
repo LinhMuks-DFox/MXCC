@@ -15,7 +15,7 @@ namespace MXC::IO {
             Error, Info, Debug, Warn
         };
     private:
-        gl_str _fmt = "[%t]%Y-%M-%D<%H%m%s>:%c ";//[Debug]2021-11-6<23:13:56>: this is a debug msg;
+        gl_str _fmt = "[%t]%Y-%M-%D<%H:%m:%s>:%c ";//[Debug]2021-11-6<23:13:56>: this is a debug msg;
         gl_str _path;
         std::ofstream *_log_f = nullptr;
     private:
@@ -78,18 +78,74 @@ namespace MXC::IO {
         void set_format(const gl_str &fmt) noexcept { _fmt = fmt; }
 
     private:
-        gl_str _build_content(_log_type t, const gl_str &content) {
-            throw Exp::UnImplementedError("Logger._build_content() not call able, not implemented yet");
+
+
+        [[nodiscard]] gl_str _build_content(_log_type type, const gl_str &content) const {
+            std::time_t t = std::time(nullptr);   // get time now
+            std::tm *now = std::localtime(&t);
+            std::stringstream s_res;
+            std::stringstream s_fmt(_fmt);
+
+            while (s_fmt.good() && s_fmt.peek() != EOF) {
+                char c = (char) s_fmt.get();
+                if (c == EOF) break;
+                if (c == '%') {
+                    switch (s_fmt.peek()) {
+                        case 't':
+                            s_res << [type] {
+                                switch (type) {
+                                    case _log_type::Error:
+                                        return "ERROR";
+                                    case Info:
+                                        return "INFO";
+                                    case Debug:
+                                        return "DEBUG";
+                                    case Warn:
+                                        return "WARN";
+                                }
+                            }();
+                            break;
+                        case 'Y':
+                            s_res << now->tm_year + 1900;
+                            break;
+                        case 'M':
+                            s_res << now->tm_mon + 1;
+                            break;
+                        case 'D':
+                            s_res << now->tm_mday;
+                            break;
+                        case 'H':
+                            s_res << now->tm_hour;
+                            break;
+                        case 'm':
+                            s_res << now->tm_min;
+                            break;
+                        case 's':
+                            s_res << now->tm_sec;
+                            break;
+                        case 'c':
+                            s_res << content;
+                            break;
+                        default:
+                            s_res << "Unknown Log Format.";
+                    }
+                    s_fmt.get(); // to skip the fmt char.
+                    continue;
+                }
+                s_res << c;
+            }
+
+            return s_res.str();
         }
 
     public:
-        void error(const gl_str &msg) const noexcept { _log_f << _build_content(_log_type::Error, msg); }
+        void error(const gl_str &msg) const noexcept { *_log_f << _build_content(_log_type::Error, msg); }
 
-        void info(const gl_str &msg) const noexcept { _log_f << _build_content(_log_type::Info, msg); }
+        void info(const gl_str &msg) const noexcept { *_log_f << _build_content(_log_type::Info, msg); }
 
-        void warn(const gl_str &msg) const noexcept { _log_f << _build_content(_log_type::Warn, msg); }
+        void warn(const gl_str &msg) const noexcept { *_log_f << _build_content(_log_type::Warn, msg); }
 
-        void debug(const gl_str &msg) const noexcept { _log_f << _build_content(_log_type::Debug, msg); }
+        void debug(const gl_str &msg) const noexcept { *_log_f << _build_content(_log_type::Debug, msg); }
 
     };
 
