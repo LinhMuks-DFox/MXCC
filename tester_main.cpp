@@ -1,45 +1,13 @@
-#include <iostream>
-#include <sstream>
-#include <string>
+//
+// Created by Mux on 2021/10/25.
+//
+#include "utl/MXC.hpp"
+
+using namespace MXC; using namespace std;
 
 int main() {
-    std::stringstream s_res;
-    std::stringstream s_fmt("[%Y]%Y-%M-%D<%H:%m:%s>:%c");
-    while (s_fmt.good() && s) {
-        char c = (char) s_fmt.get();
-        if (c == EOF) break;
-        if (c == '%') {
-            switch (s_fmt.peek()) {
-                case 't':
-                    s_res << "Type";
-                    break;
-                case 'Y':
-                    s_res << "Year";
-                    break;
-                case 'M':
-                    s_res << "Month";
-                    break;
-                case 'D':
-                    s_res << "Day";
-                    break;
-                case 'H':
-                    s_res << "Hour";
-                    break;
-                case 'm':
-                    s_res << "min";
-                    break;
-                case 's':
-                    s_res << "sec";
-                    break;
-                case 'c':
-                    s_res << "content";
-                    break;
-            }
-            s_fmt.get();
-            continue;
-        }
-        s_res << c;
-    }
-    std::cout << s_res.str();
+    IO::Logger logger(R"(G:\MXCC\utl\io\test\logger_test.log)");
+    logger.error("An error occurred, program crashed down.");
+    logger.warn("An illegitimate parameter is forced to be passed in.");
     return 0;
 }
