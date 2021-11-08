@@ -29,6 +29,8 @@
 #include <memory>
 #include <iomanip>
 #include <ctime>
+#include <array>
+#include <unordered_map>
 #pragma region OS_MACRO
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)// only windows64 defined _WIN64,

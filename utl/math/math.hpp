@@ -9,71 +9,7 @@
 #include <cmath>
 
 namespace MXC::Math {
-#pragma region constant
-    static const float64 EPSILON(1e-8);
 
-    static const float64 E(2.71828182845904523536L); // exp
-
-    static const float64 PI(3.14159265358979323846L); // pi
-
-    static const float64 PI_2(1.57079632679489661923L); // pi / 2
-
-    static const float64 PI_4(0.78539816339744830961L); // pi / 4
-
-    static const float64 SQRT_2(1.41421356237309504880L); // sqrt(2)
-
-    static const float64 SQRT_1_2(0.70710678118654752440L); // 1 / sqrt(2)
-
-    static const float64 LOG2_E(1.44269504088896340736L); // log2(E)
-#pragma endregion
-
-#pragma region IEEE754 Special Values
-
-    static inline float32 infinity() {
-        const union {
-            uint32 i;
-            float32 y;
-        } _f{0x7f800000UL};
-        return _f.y;
-    }
-
-    static inline float32 nan() {
-        const union {
-            uint32 i;
-            float32 y;
-        } _f{0x7fc00000UL};
-        return _f.y;
-    }
-
-    static inline float32 poz_zero() {
-        const union {
-            uint32 i;
-            float32 y;
-        } _f{0x00000000UL};
-        return _f.y;
-    }
-
-    static inline float32 neg_zero() {
-        const union {
-            uint32 i;
-            float32 y;
-        } _f{0x80000000UL};
-        return _f.y;
-    }
-
-    static inline float32 neg_infinity() {
-        const union {
-            uint32 i;
-            float32 y;
-        } _f{0xff800000ul};
-        return _f.y;
-    }
-
-#pragma endregion
-
-    static inline bool float64_eq(const float64 &a, const float64 &b) noexcept {
-        return (a - b) < EPSILON;
-    }
 
 #pragma region logarithm
 
