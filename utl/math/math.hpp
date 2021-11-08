@@ -71,7 +71,7 @@ namespace MXC::Math {
 
 #pragma endregion
 
-    static inline bool float64_eq(float64 a, float64 b) {
+    static inline bool float64_eq(const float64 &a, const float64 &b) noexcept {
         return (a - b) < EPSILON;
     }
 
