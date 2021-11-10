@@ -5,9 +5,17 @@
 #include "_config.hpp"
 
 namespace MXC {
-    struct Type {
+    static struct Type {
         gl_str type_name;
         uint32 generation;
+
+        friend bool operator==(const Type &type, const Type &self) {
+            return type.type_name == self.type_name && type.generation == self.generation;
+        }
+
+        friend bool operator!=(const Type &type, const Type &self) {
+            return !(type == self);
+        }
     }; // for RTTI
     class object {
     protected:
@@ -54,12 +62,9 @@ namespace MXC {
         }
     };
 
-    template<typename Father, typename Son>
-    bool is_instance(const Son &obj) {
-        Father f;
-        return f.get_type() == obj.get_type();
+    static inline gl_str to_string(const object &obj) noexcept {
+        return obj.to_string();
     }
-    // [[maybe_unused]] static const object ROOT_OBJ("MXC::object", 0);
 }
 
 #endif //MXC__OBJECT_HPP
