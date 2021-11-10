@@ -27,7 +27,9 @@ namespace MXC::Math {
             return neg_infinity();
         if (value < 0.0)
             return nan();
+        // TODO: implement log_base.(logarithm of x base b = log(x)/log(b))
 
+        std::log()
     }
 
     static inline float64 log_2(float64 v) {

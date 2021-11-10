@@ -73,5 +73,9 @@ namespace MXC::Math {
     static inline bool float64_eq(const float64 &a, const float64 &b) noexcept {
         return (a - b) < EPSILON;
     }
+
+    static inline boll float64_neq(const float64 &a, const float64 &b) noexcept {
+        return !(float64_eq(a, b));
+    }
 }
 #endif //MXC__MATH_CONFIG_H
