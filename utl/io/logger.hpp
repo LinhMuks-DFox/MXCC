@@ -11,15 +11,23 @@
 namespace MXC::IO {
     class Logger : public object {
     public:
-        enum LogType {
+        enum LogType : int {
             Error, Info, Debug, Warn
         };
+
     private:
         gl_str _fmt = "[%t]time:<%Y-%M-%D %H:%m:%s>,content:%c ";//[Debug]2021-11-6<23:13:56>: this is a debug msg;
         gl_str _path;
         std::ofstream *_log_f = nullptr;
+        const std::map<LogType, gl_str> _log_type_convert = {
+                {Error, "FATAL"},
+                {Info,  "INFO"},
+                {Debug, "DEBUG"},
+                {Warn,  "WARN"}
+        };
     private:
         void _finalize_file_handle() {
+            _log_f->flush();
             _log_f->close();
             delete _log_f;
             _log_f = nullptr;
@@ -80,8 +88,6 @@ namespace MXC::IO {
         void set_format(const gl_str &fmt) noexcept { _fmt = fmt; }
 
     private:
-
-
         [[nodiscard]] gl_str _build_content(LogType type, const gl_str &content) const {
             std::time_t t = std::time(nullptr);   // get time now
             std::tm *now = std::localtime(&t);
@@ -91,27 +97,13 @@ namespace MXC::IO {
                 char c = (char) s_fmt.get();
                 if (c == EOF) break;
                 if (c == '%') {
-                    s_res << [&s_fmt, &now, &type, &content]() -> gl_str {
+                    s_res << [&s_fmt, &now, &type, &content, this]() -> gl_str {
                         switch (s_fmt.peek()) {
                             case 't':
-                                return [&type]() {
-                                    switch (type) {
-                                        case LogType::Error:
-                                            return "FATAL";
-                                        case Info:
-                                            return "INFO";
-                                        case Debug:
-                                            return "DEBUG";
-                                        case Warn:
-                                            return "WARN";
-                                        default:
-                                            return "LOGGER-UNKNOWN-LOG-TYPE";
-                                    }
+                                return [this, &type]() -> gl_str {
+                                    auto search = this->_log_type_convert.find(type);
+                                    return search != _log_type_convert.end() ? search->second : "UnknownType";
                                 }();
-                            case 'Y':
-                                return std::to_string(now->tm_year + 1900);
-                            case 'M':
-                                return std::to_string(now->tm_mon + 1);
                             case 'D':
                                 return std::to_string(now->tm_mday);
                             case 'H':

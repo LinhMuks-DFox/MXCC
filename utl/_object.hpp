@@ -5,7 +5,7 @@
 #include "_config.hpp"
 
 namespace MXC {
-    static struct Type {
+    struct Type {
         gl_str type_name;
         uint32 generation;
 

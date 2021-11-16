@@ -3,7 +3,8 @@ project(MXC)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(MXCC SHARED tester_main.cpp
+add_library(
+        MXC SHARED tester_main.cpp
         utl/MXC.hpp
         utl/_object.hpp
         utl/_config.hpp
@@ -14,7 +15,8 @@ add_library(MXCC SHARED tester_main.cpp
         utl/io/csv.hpp
         utl/container/LinkedList.hpp
         utl/io/logger.hpp
-        utl/math/statistics.hpp)
+        utl/math/statistics.hpp
+)
 
 add_executable(Tester tester_main.cpp)
 

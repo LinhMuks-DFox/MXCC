@@ -31,6 +31,8 @@
 #include <ctime>
 #include <array>
 #include <unordered_map>
+#include <list>
+#include <map>
 #pragma region OS_MACRO
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)// only windows64 defined _WIN64,

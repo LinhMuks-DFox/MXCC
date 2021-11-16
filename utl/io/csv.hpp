@@ -12,7 +12,7 @@ namespace MXC::IO {
         uint64 raw, col;
     };
 
-    class CSVReader : public object {
+    class CSVParse : public object {
     private:
         gl_str _path;
         std::vector<std::vector<gl_str>> _raws{};
@@ -25,7 +25,7 @@ namespace MXC::IO {
 
         void parse() {
             auto *_f_in = new std::ifstream(_path, std::ios::in);
-            if (!_f_in->is_open())throw Exp::IOError("CSVReader failed to open file:" + _path);
+            if (!_f_in->is_open())throw Exp::IOError("CSVParse failed to open file:" + _path);
             gl_str line;
             while (_f_in->good()) { // read file line by line
                 std::vector<gl_str> r;
@@ -57,21 +57,21 @@ namespace MXC::IO {
         }
 
     public:
-        explicit CSVReader(const gl_str &path) : object("MXC::IO::CSVReader", 1) {
+        explicit CSVParse(const gl_str &path) : object("MXC::IO::CSVParse", 1) {
             _path = path;
             parse();
         }
 
-        CSVReader &operator=(const CSVReader &) = delete;
+        CSVParse &operator=(const CSVParse &) = delete;
 
-        CSVReader(const CSVReader &) = delete;
+        CSVParse(const CSVParse &) = delete;
 
-        CSVReader(CSVReader &&reader) noexcept: object("MXC::IO::CSVReader", 1) {
+        CSVParse(CSVParse &&reader) noexcept: object("MXC::IO::CSVParse", 1) {
             _raws = std::move(reader._raws);
             reader._reset_me();
         }
 
-        CSVReader &operator=(CSVReader &&reader) noexcept {
+        CSVParse &operator=(CSVParse &&reader) noexcept {
             if (&reader != this) {
                 _raws = std::move(reader._raws);
             }
@@ -80,12 +80,12 @@ namespace MXC::IO {
             return *this;
         }
 
-        ~CSVReader() = default;
+        ~CSVParse() = default;
 
     public:
         [[nodiscard]] const std::vector<gl_str> &operator[](uint64 raw_idx) const {
             if (raw_idx > _raws.size())
-                throw Exp::InvalidArgumentError("CSVReader.get_raw(uint64 raw_idx) failed. raw_idx is out of range.");
+                throw Exp::InvalidArgumentError("CSVParse.get_raw(uint64 raw_idx) failed. raw_idx is out of range.");
             return _raws[raw_idx];
         }
 
