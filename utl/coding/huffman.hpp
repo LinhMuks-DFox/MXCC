@@ -43,13 +43,10 @@ namespace MXC::Coding {
 
             ~_huffman_tree_node() = default;
         } node;
-
-        struct node_cmp {
+        typedef struct node_cmp {
             bool operator()(node *i, node *j) { return i->freq > j->freq; }
-        };
-
+        } ncmp;
         node *_root = nullptr;
-
     private:
         std::unordered_map<char, gl_str> _encode_map;
         std::unordered_map<gl_str, char> _decode_map;
@@ -81,14 +78,13 @@ namespace MXC::Coding {
             _root = nullptr;
         }
 
-        void _reset_me() { _root = nullptr; }
-
         void _free_tree(node *node) noexcept {
             if (node == nullptr)
                 return;
             _free_tree(node->left);
             _free_tree(node->right);
             delete node;
+            node = nullptr;
         }
 
         void _build_encode_map(node *node, const gl_str &str) {
@@ -112,7 +108,26 @@ namespace MXC::Coding {
         HuffmanTree(const HuffmanTree &) = delete;
 
         HuffmanTree &operator=(const HuffmanTree &) = delete;
-        // TODO: Finish rvalue constructor and rvalue copy;
+
+
+        HuffmanTree &operator=(HuffmanTree &&tree) noexcept {
+            if (this != &tree) {
+                this->_decode_map = std::move(tree._decode_map);
+                this->_encode_map = std::move(tree._encode_map);
+                if (tree._root != nullptr)
+                    tree._free_tree(tree._root);
+            }
+            return *this;
+        }
+
+        HuffmanTree(HuffmanTree &&tree) noexcept: object("MXC::Coding::HuffmanTree", 1) {
+            if (this != &tree) {
+                this->_decode_map = std::move(tree._decode_map);
+                this->_encode_map = std::move(tree._encode_map);
+                if (tree._root != nullptr)
+                    tree._free_tree(tree._root);
+            }
+        }
 
     public:
         [[nodiscard]] gl_str to_string() const noexcept override { return this->my_type.type_name; }
@@ -122,9 +137,9 @@ namespace MXC::Coding {
             return _encode_map[c];
         }
 
-        gl_str encode (const gl_str& input) {
+        gl_str encode(const gl_str &input) {
             std::stringstream ss;
-            for(char i : input){
+            for (char i: input) {
                 ss << _encode_map[i];
             }
             ss << std::flush;
