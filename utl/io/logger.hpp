@@ -149,21 +149,25 @@ namespace MXC::IO {
     public:
 
         void error_console(const gl_str &msg) const noexcept {
+            fflush(stdout);
             fprintf(stderr, "%s", _build_content(LogType::Error, msg).c_str());
             fflush(stderr);
         }
 
         void info_console(const gl_str &msg) const noexcept {
+            fflush(stdout);
             fprintf(stdout, "%s", _build_content(LogType::Info, msg).c_str());
             fflush(stdout);
         }
 
         void warn_console(const gl_str &msg) const noexcept {
+            fflush(stdout);
             fprintf(stdout, "%s", _build_content(LogType::Warn, msg).c_str());
             fflush(stdout);
         }
 
         void debug_console(const gl_str &msg) const noexcept {
+            fflush(stdout);
             fprintf(stdout, "%s", _build_content(LogType::Debug, msg).c_str());
             fflush(stdout);
         }

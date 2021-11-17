@@ -75,5 +75,14 @@ namespace MXC::Exp {
         explicit LoggerError(const gl_str &msg) :
                 BaseException(msg, "MXC::Exp::LoggerError", 2) {}
     };
+
+    class EncodeError : public BaseException {
+    public:
+        explicit EncodeError(const char *const msg) :
+                BaseException(msg, "MXC::Exp::EncodeError", 2) {}
+
+        explicit EncodeError(const gl_str &msg) :
+                BaseException(msg, "MXC::Exp::EncodeError", 2) {}
+    };
 }
 #endif //MXC__BUILTIN_EXCEPTION_HPP

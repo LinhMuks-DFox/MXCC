@@ -9,4 +9,6 @@
 #include "String.hpp"
 #include "io/csv.hpp"
 #include "io/logger.hpp"
+
+#include "coding/huffman.hpp"
 #endif //MXC_MXC_HPP

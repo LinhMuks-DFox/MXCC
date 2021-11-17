@@ -11,11 +11,13 @@
 #endif
 
 // ensure cpp std11 is usable
-#if __cplusplus < 201703L
-#error "At least C++11 or higher required"
+#if __cplusplus < 201403L
+#error "At least C++14 or higher required"
 #endif
 
 #include <string>
+#include <queue>
+#include <algorithm>
 #include <exception>
 #include <cstdint>
 #include <cstdlib>
@@ -68,7 +70,8 @@ namespace MXC {
     typedef double float64;
 
     typedef std::uint64_t memory_length;
-
+    using std::cout;
+    using std::endl;
     template<class T>
     inline T *memory_static_allocate(memory_length length = 1, bool help_init = false) noexcept {
         T *ret = (T *) new char[sizeof(T) * length];

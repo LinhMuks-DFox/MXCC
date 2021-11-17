@@ -16,6 +16,8 @@ add_library(
         utl/container/LinkedList.hpp
         utl/io/logger.hpp
         utl/math/statistics.hpp
+
+        utl/coding/huffman.hpp
 )
 
 add_executable(Tester tester_main.cpp)
