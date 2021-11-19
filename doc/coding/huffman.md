@@ -1,0 +1,2 @@
+# `MXC::Coding::HuffmanTree`
+

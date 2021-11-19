@@ -8,15 +8,16 @@
 #include "../_object.hpp"
 #include "../io/logger.hpp"
 
-#define DEBUGGING
+
 namespace MXC::Coding {
     /*
-     *                          root
-     *                        0/     \1
-     *                     left       right
-     *                   0/    \1   0/     \1
+     * This Huffman Tree is implemented as this form:
+     *                           root
+     *                        0/      \1
+     *                     left        right
+     *                   0/    \1    0/     \1
      *                left      right  ...
-     *                ...
+     *                ...     ...     ...     ...
      * */
     class HuffmanTree : object {
     private:
@@ -24,35 +25,30 @@ namespace MXC::Coding {
         typedef struct _huffman_tree_node {
             _huffman_tree_node *left = nullptr, *right = nullptr;
             uint64 freq = 0;
-            bool is_leaf = false;
             char symbol = '\0';
 
-            explicit _huffman_tree_node(const frequency_pair &p) {
-                this->freq = p.second;
-                this->symbol = p.first;
-            }
-
-            _huffman_tree_node(char ch, uint64 fre, _huffman_tree_node *left, _huffman_tree_node *right) {
-                this->left = left;
-                this->right = right;
-                this->symbol = ch;
-                this->freq = fre;
-            }
+            _huffman_tree_node(char ch, uint64 fre, _huffman_tree_node *left, _huffman_tree_node *right) :
+                    left(left), right(right), symbol(ch), freq(fre) {}
 
             _huffman_tree_node() = default;
 
             ~_huffman_tree_node() = default;
         } node;
-        typedef struct node_cmp {
+
+        struct node_cmp {
             bool operator()(node *i, node *j) { return i->freq > j->freq; }
-        } ncmp;
+        };
+
         node *_root = nullptr;
     private:
         std::unordered_map<char, gl_str> _encode_map;
         std::unordered_map<gl_str, char> _decode_map;
     public:
-        HuffmanTree() : object("MXC::Coding::HuffmanTree", 1) {
-            _root = new node();
+        HuffmanTree() : object("MXC::Coding::HuffmanTree", 1) {}
+
+        explicit HuffmanTree(std::istream &in) : object("MXC::Coding::HuffmanTree", 1) {
+            std::unordered_map<char, uint64> f_table;
+            word_frequency_stat_and_build(in, f_table);
         }
 
     public:
@@ -62,12 +58,10 @@ namespace MXC::Coding {
                 pq.push(new node(pair.first, pair.second, nullptr, nullptr));
             }
             while (pq.size() != 1) {
-
                 node *left = pq.top();
                 pq.pop();
                 node *right = pq.top();
                 pq.pop();
-
                 uint64 sum = left->freq + right->freq;
                 pq.push(new node('\0', sum, left, right));
             }
@@ -78,29 +72,27 @@ namespace MXC::Coding {
             _root = nullptr;
         }
 
+        void word_frequency_stat_and_build(std::istream &in, std::unordered_map<char, uint64> &table) {
+            word_frequency_stat(in, table);
+            build_me(table);
+        }
+
+    private:
         void _free_tree(node *node) noexcept {
-            if (node == nullptr)
-                return;
+            if (node == nullptr) return;
             _free_tree(node->left);
             _free_tree(node->right);
             delete node;
-            node = nullptr;
         }
 
         void _build_encode_map(node *node, const gl_str &str) {
-            if (node == nullptr)
-                return;
-            if (!node->left && !node->right) {
-                _encode_map[node->symbol] = str;
-            }
+            if (node == nullptr) return;
+            if (!node->left && !node->right) { _encode_map[node->symbol] = str; }
             _build_encode_map(node->left, str + "0");
             _build_encode_map(node->right, str + "1");
         }
 
-        void _build_decode_map() {
-            for (auto &[key, value]: _encode_map)
-                _decode_map[value] = key;
-        }
+        void _build_decode_map() { for (auto &[key, value]: _encode_map) _decode_map[value] = key; }
 
     public:
         ~HuffmanTree() { _free_tree(_root); }
@@ -114,8 +106,7 @@ namespace MXC::Coding {
             if (this != &tree) {
                 this->_decode_map = std::move(tree._decode_map);
                 this->_encode_map = std::move(tree._encode_map);
-                if (tree._root != nullptr)
-                    tree._free_tree(tree._root);
+                if (tree._root != nullptr) tree._free_tree(tree._root);
             }
             return *this;
         }
@@ -124,24 +115,21 @@ namespace MXC::Coding {
             if (this != &tree) {
                 this->_decode_map = std::move(tree._decode_map);
                 this->_encode_map = std::move(tree._encode_map);
-                if (tree._root != nullptr)
-                    tree._free_tree(tree._root);
+                if (tree._root != nullptr) tree._free_tree(tree._root);
             }
         }
 
     public:
-        [[nodiscard]] gl_str to_string() const noexcept override { return this->my_type.type_name; }
+        [[nodiscard]] gl_str to_string() const noexcept override {
+            return to_json_string();
+        }
 
     public:
-        gl_str encode(char c) {
-            return _encode_map[c];
-        }
+        gl_str encode(char c) { return _encode_map[c]; }
 
         gl_str encode(const gl_str &input) {
             std::stringstream ss;
-            for (char i: input) {
-                ss << _encode_map[i];
-            }
+            for (char i: input) { ss << _encode_map[i]; }
             ss << std::flush;
             return ss.str();
         }
@@ -149,10 +137,7 @@ namespace MXC::Coding {
         gl_str decode(const gl_str &bytes) {
             gl_str cur;
             std::stringstream ss;
-            auto contains = [this, &cur] {
-                auto it = this->_decode_map.find(cur);
-                return it != this->_decode_map.end();
-            };
+            auto contains = [this, &cur] { return this->_decode_map.find(cur) != this->_decode_map.end(); };
             for (auto c: bytes) {
                 if (contains()) {
                     ss << this->_decode_map[cur];
@@ -160,20 +145,24 @@ namespace MXC::Coding {
                 }
                 cur += c;
             }
-            if (!cur.empty())
-                ss << _decode_map[cur];
+            if (!cur.empty()) ss << _decode_map[cur];
             return ss.str();
         }
 
-        void dump_tree_to_json(std::ofstream &out) {
-            out << "{\"encode\":" << "{";
+        gl_str to_json_string() const noexcept {
+            std::stringstream sb;
+            sb << "{\"encode\":" << "{";
             for (auto &[key, value]: _encode_map)
-                out << "\"" << key << "\"" << ':' << "\"" << value << "\"" << "," << std::flush;
-            out << "},";
-            out << "\"decode\":" << "{";
+                sb << "\"" << key << "\"" << ':' << "\"" << value << "\"" << "," << std::flush;
+            sb << "},";
+            sb << "\"decode\":" << "{";
             for (auto &[key, value]: _decode_map)
-                out << "\"" << key << "\"" << ':' << "\"" << value << "\"" << "," << std::flush;
-            out << "}}";
+                sb << "\"" << key << "\"" << ':' << "\"" << value << "\"" << "," << std::flush;
+            sb << "}}";
+        }
+
+        void dump_tree_to_json(std::ofstream &out) const {
+            out << to_json_string();
         }
 
     public:
