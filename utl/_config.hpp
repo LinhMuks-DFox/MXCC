@@ -78,7 +78,6 @@ namespace MXC {
         if (help_init) for (memory_length p = 0; p < length; ++p) new(ret + p) T(); // placement new;
         return ret;
     }
-
     template<class Ty>
     inline void static_free_memory(Ty **ptr, bool help_finalize = false, memory_length length = 0) noexcept {
         if (help_finalize) for (memory_length p = 0; p < length; ++p) (*ptr)[p].~Ty(); // placement delete;

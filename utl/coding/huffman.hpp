@@ -17,7 +17,7 @@ namespace MXC::Coding {
      *                     left        right
      *                   0/    \1    0/     \1
      *                left      right  ...
-     *                ...     ...     ...     ...
+     *              0/... \1  0/ ... \1 ...   ...
      * */
     class HuffmanTree : object {
     private:
@@ -39,10 +39,19 @@ namespace MXC::Coding {
             bool operator()(node *i, node *j) { return i->freq > j->freq; }
         };
 
-        node *_root = nullptr;
     private:
         std::unordered_map<char, gl_str> _encode_map;
         std::unordered_map<gl_str, char> _decode_map;
+        node *_root = nullptr;
+        bool _is_built = false;
+
+    private:
+        void inline _assert_built(const gl_str &input = "") const {
+            if (!_is_built)
+                throw Exp::InvalidOperation(
+                        "Cannot encode/decode:" + input + ", HuffmanTree object was not built yet.");
+        }
+
     public:
         HuffmanTree() : object("MXC::Coding::HuffmanTree", 1) {}
 
@@ -70,6 +79,7 @@ namespace MXC::Coding {
             _build_decode_map();
             _free_tree(_root);
             _root = nullptr;
+            _is_built = true;
         }
 
         void word_frequency_stat_and_build(std::istream &in, std::unordered_map<char, uint64> &table) {
@@ -101,7 +111,6 @@ namespace MXC::Coding {
 
         HuffmanTree &operator=(const HuffmanTree &) = delete;
 
-
         HuffmanTree &operator=(HuffmanTree &&tree) noexcept {
             if (this != &tree) {
                 this->_decode_map = std::move(tree._decode_map);
@@ -125,21 +134,38 @@ namespace MXC::Coding {
         }
 
     public:
-        gl_str encode(char c) { return _encode_map[c]; }
+        gl_str encode(char c) {
+            _assert_built();
+            return _encode_map[c];
+        }
 
         gl_str encode(const gl_str &input) {
+            _assert_built(input);
+            auto contains = [this](char c) -> bool { return _encode_map.find(c) == _encode_map.end(); };
             std::stringstream ss;
-            for (char i: input) { ss << _encode_map[i]; }
+            for (char i: input) {
+                if (contains(i)) ss << _encode_map[i];
+                else {
+                    gl_str msg = "can not encode char:";
+                    msg += i;
+                    throw Exp::EncodeError(msg);
+                }
+            }
             ss << std::flush;
             return ss.str();
         }
 
         gl_str decode(const gl_str &bytes) {
+            _assert_built(bytes);
+            auto contain = [this](const gl_str &cur) { return this->_decode_map.find(cur) != this->_decode_map.end(); };
             gl_str cur;
             std::stringstream ss;
-            auto contains = [this, &cur] { return this->_decode_map.find(cur) != this->_decode_map.end(); };
+            if (contain(bytes)) {
+                ss << _decode_map[bytes];
+                return ss.str();
+            }
             for (auto c: bytes) {
-                if (contains()) {
+                if (contain(cur)) {
                     ss << this->_decode_map[cur];
                     cur = "";
                 }
@@ -159,9 +185,10 @@ namespace MXC::Coding {
             for (auto &[key, value]: _decode_map)
                 sb << "\"" << key << "\"" << ':' << "\"" << value << "\"" << "," << std::flush;
             sb << "}}";
+            return sb.str();
         }
 
-        void dump_tree_to_json(std::ofstream &out) const {
+        void dump_tree_in_json_to(std::ofstream &out) const {
             out << to_json_string();
         }
 

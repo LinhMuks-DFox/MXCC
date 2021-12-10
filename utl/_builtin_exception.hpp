@@ -84,5 +84,23 @@ namespace MXC::Exp {
         explicit EncodeError(const gl_str &msg) :
                 BaseException(msg, "MXC::Exp::EncodeError", 2) {}
     };
+
+    class IndexError : public BaseException {
+    public:
+        explicit IndexError(const char *const msg) :
+                BaseException(msg, "MXC::Exp::IndexError", 2) {}
+
+        explicit IndexError(const gl_str &msg) :
+                BaseException(msg, "MXC::Exp::IndexError", 2) {}
+    };
+
+    class BadConvert : public BaseException {
+    public:
+        explicit BadConvert(const char *const msg) :
+                BaseException(msg, "MXC::Exp::BadConvert", 2) {}
+
+        explicit BadConvert(const gl_str &msg) :
+                BaseException(msg, "MXC::Exp::BadConvert", 2) {}
+    };
 }
 #endif //MXC__BUILTIN_EXCEPTION_HPP

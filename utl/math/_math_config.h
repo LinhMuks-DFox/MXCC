@@ -1,6 +1,9 @@
 #ifndef MXC__MATH_CONFIG_H
 #define MXC__MATH_CONFIG_H
+
 #include "../_config.hpp"
+#include "../_object.hpp"
+#include "../_builtin_exception.hpp"
 // to check if compiler using IEEE-754
 #if __DBL_DIG__ != 15 || __DBL_MANT_DIG__ != 53 || __DBL_MAX_10_EXP__ != 308 || \
     __DBL_MAX_EXP__ != 1024 || __DBL_MIN_10_EXP__ != -307 || __DBL_MIN_EXP__ != -1021
@@ -74,8 +77,20 @@ namespace MXC::Math {
         return (a - b) < EPSILON;
     }
 
-    static inline boll float64_neq(const float64 &a, const float64 &b) noexcept {
+    static inline bool float64_neq(const float64 &a, const float64 &b) noexcept {
         return !(float64_eq(a, b));
+    }
+
+    enum PNSign {
+        Positive,
+        Negative,
+        Zero
+    };
+
+    int char_int_to_int(char ch) {
+        if ('0' <= ch && ch <= '9')
+            return '0' - ch;
+        throw Exp::BadConvert(gl_str("Can not convert:") + ch + "to int.");
     }
 }
 #endif //MXC__MATH_CONFIG_H

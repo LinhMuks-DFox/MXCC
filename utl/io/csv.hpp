@@ -24,24 +24,22 @@ namespace MXC::IO {
         }
 
         void parse() {
-            auto *_f_in = new std::ifstream(_path, std::ios::in);
-            if (!_f_in->is_open())throw Exp::IOError("CSVParse failed to open file:" + _path);
+            std::ifstream _f_in(_path, std::ios::in);
+            if (!_f_in.is_open())throw Exp::IOError("CSVParse failed to open file:" + _path);
             gl_str line;
-            while (_f_in->good()) { // read file line by line
+            while (_f_in.good()) { // read file line by line
                 std::vector<gl_str> r;
-                std::getline(*_f_in, line);
+                std::getline(_f_in, line);
                 std::stringstream ss(line);
                 gl_str table;
                 while (ss.good()) { // split raw by comma
                     std::getline(ss, table, ',');
                     r.push_back(table);
                 }
-                _raws.push_back(r);
                 _maximum_col = r.size() > _maximum_col ? r.size() : _maximum_col;
+                _raws.push_back(std::move(r));
             }
-            _f_in->close();
-            delete _f_in;
-
+            _f_in.close();
         }
 
     public:
