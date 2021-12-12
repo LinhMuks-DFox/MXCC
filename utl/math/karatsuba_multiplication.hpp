@@ -8,6 +8,8 @@
 #include "_math_config.h"
 
 namespace MXC::Math {
+    // Unimplemented
+    [[deprecated ("Unimplemented yet.")]]
     class KaratsubaArray : object {
     private:
         std::vector<uint64> _integer_part;

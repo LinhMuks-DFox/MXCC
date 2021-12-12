@@ -141,7 +141,7 @@ namespace MXC::Coding {
 
         gl_str encode(const gl_str &input) {
             _assert_built(input);
-            auto contains = [this](char c) -> bool { return _encode_map.find(c) == _encode_map.end(); };
+            auto contains = [this](char c) -> bool { return _encode_map.find(c) != _encode_map.end(); };
             std::stringstream ss;
             for (char i: input) {
                 if (contains(i)) ss << _encode_map[i];
