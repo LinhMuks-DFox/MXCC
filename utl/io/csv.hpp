@@ -6,7 +6,7 @@
 #define MXC_CSV_HPP
 
 #include "../_object.hpp"
-
+#include "../_builtin_exception.hpp"
 namespace MXC::IO {
     struct csv_coordinates {
         uint64 raw, col;
@@ -25,7 +25,7 @@ namespace MXC::IO {
 
         void parse() {
             std::ifstream _f_in(_path, std::ios::in);
-            if (!_f_in.is_open())throw Exp::IOError("CSVParse failed to open file:" + _path);
+            if (!_f_in.is_open()) throw Exp::IOError("CSVParse failed to open file:" + _path);
             gl_str line;
             while (_f_in.good()) { // read file line by line
                 std::vector<gl_str> r;
