@@ -12,21 +12,21 @@
 
 namespace MXC::Math {
 #pragma region constant
-    static const float64 EPSILON(1e-8);
+    static const constexpr float64 EPSILON(1e-8);
 
-    static const float64 E(2.71828182845904523536L); // exp
+    static const constexpr float64 E(2.71828182845904523536L); // exp
 
-    static const float64 PI(3.14159265358979323846L); // pi
+    static const constexpr float64 PI(3.14159265358979323846L); // pi
 
-    static const float64 PI_2(1.57079632679489661923L); // pi / 2
+    static const constexpr float64 PI_2(1.57079632679489661923L); // pi / 2
 
-    static const float64 PI_4(0.78539816339744830961L); // pi / 4
+    static const constexpr float64 PI_4(0.78539816339744830961L); // pi / 4
 
-    static const float64 SQRT_2(1.41421356237309504880L); // sqrt(2)
+    static const constexpr float64 SQRT_2(1.41421356237309504880L); // sqrt(2)
 
-    static const float64 SQRT_1_2(0.70710678118654752440L); // 1 / sqrt(2)
+    static const constexpr float64 SQRT_1_2(0.70710678118654752440L); // 1 / sqrt(2)
 
-    static const float64 LOG2_E(1.44269504088896340736L); // log2(E)
+    static const constexpr float64 LOG2_E(1.44269504088896340736L); // log2(E)
 #pragma endregion
 
 #pragma region IEEE754 Special Values

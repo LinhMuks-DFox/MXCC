@@ -51,6 +51,7 @@
 
 #if defined(__linux) || defined(linux) || defined(__linux) // for linux
 #endif
+
 #pragma endregion
 
 namespace MXC {
@@ -72,17 +73,23 @@ namespace MXC {
     typedef std::uint64_t memory_length;
     using std::cout;
     using std::endl;
+
     template<class T>
     inline T *memory_static_allocate(memory_length length = 1, bool help_init = false) noexcept {
         T *ret = (T *) new char[sizeof(T) * length];
         if (help_init) for (memory_length p = 0; p < length; ++p) new(ret + p) T(); // placement new;
         return ret;
     }
+
     template<class Ty>
     inline void static_free_memory(Ty **ptr, bool help_finalize = false, memory_length length = 0) noexcept {
         if (help_finalize) for (memory_length p = 0; p < length; ++p) (*ptr)[p].~Ty(); // placement delete;
         delete[] (char *) *ptr;
         *ptr = nullptr;
+    }
+
+    inline gl_str to_string(bool boolean_expression) noexcept {
+        return boolean_expression ? "True" : "False";
     }
 }
 #if __cplusplus >= 202002L
