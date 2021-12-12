@@ -6,7 +6,6 @@
 #include "_object.hpp"
 #include "_builtin_exception.hpp"
 
-#include "String.hpp"
 #include "io/csv.hpp"
 #include "io/logger.hpp"
 

@@ -3,7 +3,8 @@
 //
 #include "utl/MXC.hpp"
 
-using namespace MXC; using namespace std;
+using namespace MXC;
+using namespace std;
 int main() {
     gl_str text = "Huffman coding is a data compression algorithm.";
     auto ss = stringstream(text);

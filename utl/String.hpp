@@ -4,9 +4,12 @@
 
 #ifndef MXC_STRING_HPP
 #define MXC_STRING_HPP
+
 #include "_object.hpp"
-namespace MXC{
-    class String : public object{
+
+namespace MXC {
+    [[deprecated ("Unimplemented yet.")]]
+    class String : public object {
 
     };
 }

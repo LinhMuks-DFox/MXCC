@@ -9,6 +9,7 @@
 #include "../_builtin_exception.hpp"
 
 namespace MXC::Container {
+    [[deprecated ("Unimplemented yet.")]]
     template<typename T>
     class LinkedList : public object {
     private:

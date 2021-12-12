@@ -73,21 +73,21 @@ namespace MXC::Math {
 
 #pragma endregion
 
-    static inline bool float64_eq(const float64 &a, const float64 &b) noexcept {
+    static constexpr inline bool float64_eq(const float64 &a, const float64 &b) noexcept {
         return (a - b) < EPSILON;
     }
 
-    static inline bool float64_neq(const float64 &a, const float64 &b) noexcept {
+    static constexpr inline bool float64_neq(const float64 &a, const float64 &b) noexcept {
         return !(float64_eq(a, b));
     }
 
     enum PNSign {
-        Positive,
-        Negative,
-        Zero
+        Positive = 1,
+        Negative = -1,
+        Zero = 0
     };
 
-    int char_int_to_int(char ch) {
+    static inline int char_int_to_int(char ch) {
         if ('0' <= ch && ch <= '9')
             return '0' - ch;
         throw Exp::BadConvert(gl_str("Can not convert:") + ch + "to int.");

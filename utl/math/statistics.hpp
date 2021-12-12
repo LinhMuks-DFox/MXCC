@@ -9,6 +9,7 @@
 #include
 
 namespace MXC::Math {
+    [[deprecated ("Unimplemented yet.")]]
     template<class T = float64>
     static inline T mean(std::array<T> arr) noexcept {
         if (arr.empty()) return (T) nan();
@@ -16,8 +17,5 @@ namespace MXC::Math {
         for (auto i = arr.begin(); i != arr.end(); ++i, ret += *i;);
         return ret / arr.size();
     }
-
-    tempalte<class T=float64>
-    static inline T men() {}
 }
 #endif //MXC_STATISTICS_HPP
