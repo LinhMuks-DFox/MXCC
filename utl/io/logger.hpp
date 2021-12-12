@@ -38,8 +38,9 @@ namespace MXC::IO {
         void _flush_log_file() const { _log_f->flush(); }
 
     public:
-        explicit Logger(const gl_str &path) noexcept: object("MXC::IO::Logger", 1) {
+        explicit Logger(const gl_str &path) : object("MXC::IO::Logger", 1) {
             this->_log_f = new std::ofstream(path, std::ios::out);
+            if(!_log_f->is_open()) throw Exp::IOError("Can not open file:" + _path);
             _path = path;
         }
 
@@ -114,6 +115,10 @@ namespace MXC::IO {
                                 return std::to_string(now->tm_sec);
                             case 'c':
                                 return content;
+                            case 'Y':
+                                return std::to_string(now->tm_year + 1900);
+                            case 'M':
+                                return std::to_string(now->tm_mon + 1);
                             case '%':
                                 return "%";
                             default:
