@@ -9,8 +9,7 @@
 
 namespace MXC::Math {
     // Unimplemented
-    [[deprecated ("Unimplemented yet.")]]
-    class KaratsubaArray : object {
+    class [[deprecated ("Unimplemented yet.")]] KaratsubaArray : object {
     private:
         std::vector<uint64> _integer_part;
         PNSign _sign = Zero;
@@ -29,7 +28,7 @@ namespace MXC::Math {
     public:
         [[nodiscard]] uint64 at(size_t i) const {
             if (i > _integer_part.size())
-                throw Exp::IndexError("Index i is out of range. range: 0~" + to_string(i) + ", but:" + to_string(i));
+                throw Exp::IndexError("Index i is out of range. range: 0~" + std::to_string(i) + ", but:" + std::to_string(i));
             return _integer_part[i];
         }
 
