@@ -4,7 +4,6 @@
 
 #ifndef MXC_CSV_HPP
 #define MXC_CSV_HPP
-
 #include "../_object.hpp"
 #include "../_builtin_exception.hpp"
 namespace MXC::IO {
@@ -28,16 +27,16 @@ namespace MXC::IO {
             if (!_f_in.is_open()) throw Exp::IOError("CSVParse failed to open file:" + _path);
             gl_str line;
             while (_f_in.good()) { // read file line by line
-                std::vector<gl_str> r;
+                std::vector<gl_str> cur_raw;
                 std::getline(_f_in, line);
                 std::stringstream ss(line);
                 gl_str table;
                 while (ss.good()) { // split raw by comma
                     std::getline(ss, table, ',');
-                    r.push_back(table);
+                    cur_raw.push_back(table);
                 }
-                _maximum_col = r.size() > _maximum_col ? r.size() : _maximum_col;
-                _raws.push_back(std::move(r));
+                _maximum_col = cur_raw.size() > _maximum_col ? cur_raw.size() : _maximum_col;
+                _raws.push_back(std::move(cur_raw));
             }
             _f_in.close();
         }
@@ -49,7 +48,7 @@ namespace MXC::IO {
                 for (const gl_str &content: raw) {
                     ss << content << ",";
                 }
-                ss << "\n" << std::flush;
+                ss << std::endl;
             }
             return ss.str();
         }
@@ -124,8 +123,7 @@ namespace MXC::IO {
 
         [[nodiscard]] gl_str query_content(csv_coordinates c) const { return _raws[c.raw][c.col]; }
     };
-
-    class CSVWriter : public object {
+    class [[deprecated ("Unimplemented yet.")]] CSVWriter : public object {
     private:
         std::ofstream *_f_o = nullptr;
         gl_str _path;
