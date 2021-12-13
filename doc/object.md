@@ -9,7 +9,7 @@ field `generation`
 
 ### Method
 
-1. `to_string()`
+1. `to_str()`
    to convert a MXC::object to string representation.
 2. `get_hash()`
    to convert a MXC::object to a hash_code type(uint64_t) representation.

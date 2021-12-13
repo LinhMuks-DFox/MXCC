@@ -40,7 +40,7 @@ namespace MXC::IO {
     public:
         explicit Logger(const gl_str &path) : object("MXC::IO::Logger", 1) {
             this->_log_f = new std::ofstream(path, std::ios::out);
-            if(!_log_f->is_open()) throw Exp::IOError("Can not open file:" + _path);
+            if (!_log_f->is_open()) throw Exp::IOError("Can not open file:" + _path);
             _path = path;
         }
 

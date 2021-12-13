@@ -18,6 +18,6 @@ add_library( MXC SHARED tester_main.cpp
         utl/math/karatsuba_multiplication.hpp
 )
 
-add_executable(Tester tester_main.cpp)
+add_executable(CompileTester tester_main.cpp)
 
-target_link_libraries(Tester MXC)
+target_link_libraries(CompileTester MXC)

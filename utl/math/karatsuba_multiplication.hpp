@@ -28,7 +28,8 @@ namespace MXC::Math {
     public:
         [[nodiscard]] uint64 at(size_t i) const {
             if (i > _integer_part.size())
-                throw Exp::IndexError("Index i is out of range. range: 0~" + std::to_string(i) + ", but:" + std::to_string(i));
+                throw Exp::IndexError(
+                        "Index i is out of range. range: 0~" + std::to_string(i) + ", but:" + std::to_string(i));
             return _integer_part[i];
         }
 

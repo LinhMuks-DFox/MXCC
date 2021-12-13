@@ -27,7 +27,7 @@ namespace MXC::Exp {
             return _msg.c_str();
         }
 
-        [[nodiscard]] gl_str to_string() const noexcept override {
+        [[nodiscard]] gl_str to_str() const noexcept override {
             return this->my_type.type_name + ": " + this->_msg;
         }
 

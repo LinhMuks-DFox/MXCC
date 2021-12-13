@@ -38,7 +38,7 @@ namespace MXC::Container {
             if (*p->ele == i) {
                 return p;
             }
-            if(!p->next)
+            if (!p->next)
                 return nullptr;
             return find_node(p->next, i);
         }

@@ -44,7 +44,7 @@ namespace MXC {
             this->constructed_obj = true;
         }
 
-        [[nodiscard]] virtual gl_str to_string() const noexcept {
+        [[nodiscard]] virtual gl_str to_str() const noexcept {
             return my_type.type_name;
         }
 
@@ -57,13 +57,13 @@ namespace MXC {
         }
 
         friend std::ostream &operator<<(std::ostream &os, const MXC::object &obj) noexcept {
-            os << obj.to_string();
+            os << obj.to_str();
             return os;
         }
     };
 
     static inline gl_str to_string(const object &obj) noexcept {
-        return obj.to_string();
+        return obj.to_str();
     }
 }
 

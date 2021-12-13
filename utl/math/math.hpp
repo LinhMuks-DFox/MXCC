@@ -12,6 +12,7 @@ namespace MXC::Math {
 
 
 #pragma region logarithm
+
     [[deprecated ("Unimplemented yet.")]]
     static inline float64 log_base(float64 value, float64 base) {
         /*!
@@ -31,18 +32,22 @@ namespace MXC::Math {
 
         std::log()
     }
+
     [[deprecated ("Unimplemented yet.")]]
     static inline float64 log_2(float64 v) {
         if (float64_eq(v, E))
             return LOG2_E;
         return log_base(v, 2.);
     }
+
     [[deprecated ("Unimplemented yet.")]]
     static inline float64 log_exp(float64 v) {
         return log_base(v, E);
     }
+
     [[deprecated ("Unimplemented yet.")]]
     static inline float64 log_n() {}
+
     [[deprecated ("Unimplemented yet.")]]
     static inline float64 log10() {}
 

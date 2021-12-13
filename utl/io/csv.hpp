@@ -4,8 +4,10 @@
 
 #ifndef MXC_CSV_HPP
 #define MXC_CSV_HPP
+
 #include "../_object.hpp"
 #include "../_builtin_exception.hpp"
+
 namespace MXC::IO {
     struct csv_coordinates {
         uint64 raw, col;
@@ -42,7 +44,7 @@ namespace MXC::IO {
         }
 
     public:
-        [[nodiscard]] gl_str to_string() const noexcept override {
+        [[nodiscard]] gl_str to_str() const noexcept override {
             std::stringstream ss;
             for (const auto &raw: _raws) {
                 for (const gl_str &content: raw) {
@@ -123,6 +125,7 @@ namespace MXC::IO {
 
         [[nodiscard]] gl_str query_content(csv_coordinates c) const { return _raws[c.raw][c.col]; }
     };
+
     class [[deprecated ("Unimplemented yet.")]] CSVWriter : public object {
     private:
         std::ofstream *_f_o = nullptr;

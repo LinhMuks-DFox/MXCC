@@ -129,7 +129,7 @@ namespace MXC::Coding {
         }
 
     public:
-        [[nodiscard]] gl_str to_string() const noexcept override {
+        [[nodiscard]] gl_str to_str() const noexcept override {
             return to_json_string();
         }
 

@@ -35,6 +35,8 @@
 #include <unordered_map>
 #include <list>
 #include <map>
+#include <vector>
+
 #pragma region OS_MACRO
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)// only windows64 defined _WIN64,
@@ -74,15 +76,15 @@ namespace MXC {
     using std::cout;
     using std::endl;
 
-    template<class T>
-    inline T *memory_static_allocate(memory_length length = 1, bool help_init = false) noexcept {
+    template<class T, memory_length length = 1, bool help_init = false>
+    static inline T *memory_static_allocate() noexcept {
         T *ret = (T *) new char[sizeof(T) * length];
         if (help_init) for (memory_length p = 0; p < length; ++p) new(ret + p) T(); // placement new;
         return ret;
     }
 
-    template<class Ty>
-    inline void static_free_memory(Ty **ptr, bool help_finalize = false, memory_length length = 0) noexcept {
+    template<class Ty, bool help_finalize = false, memory_length length = 0>
+    static inline void static_free_memory(Ty **ptr) noexcept {
         if (help_finalize) for (memory_length p = 0; p < length; ++p) (*ptr)[p].~Ty(); // placement delete;
         delete[] (char *) *ptr;
         *ptr = nullptr;

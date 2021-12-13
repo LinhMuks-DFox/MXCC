@@ -17,4 +17,5 @@
 #include "math/math.hpp"
 
 #include "coding/huffman.hpp"
+
 #endif //MXC_MXC_HPP
