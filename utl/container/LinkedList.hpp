@@ -5,8 +5,7 @@
 #ifndef MXC_LIST_HPP
 #define MXC_LIST_HPP
 
-#include "../_object.hpp"
-#include "../_builtin_exception.hpp"
+#include "IList.hpp"
 
 namespace MXC::Container {
     

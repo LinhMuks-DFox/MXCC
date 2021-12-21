@@ -16,7 +16,8 @@ add_library( MXC SHARED tester_main.cpp
         utl/math/statistics.hpp
         utl/coding/huffman.hpp
         utl/math/karatsuba_multiplication.hpp
-)
+        utl/container/ArrayList.hpp 
+        utl/container/IList.hpp)
 # put this after add_library
 target_compile_options(MXC PUBLIC "/Zc:__cplusplus")
 if(MSVC)
