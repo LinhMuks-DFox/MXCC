@@ -3,5 +3,6 @@
 cmake*/
 *build*/
 /.vs
+.vscode
 out
 CMakeSettings.json
