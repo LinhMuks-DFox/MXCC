@@ -29,8 +29,6 @@ namespace MXC::Math {
         if (value < 0.0)
             return nan();
         // TODO: implement log_base.(logarithm of x base b = log(x)/log(b))
-
-        std::log()
     }
 
     [[deprecated ("Unimplemented yet.")]]

@@ -1,7 +1,7 @@
 #ifndef MXC_MXC_HPP
 #define MXC_MXC_HPP
 
-#define MXC_VERSION 20211030L
+constexpr auto MXC_VERSION = 20211030L;
 
 #include "_object.hpp"
 #include "_builtin_exception.hpp"

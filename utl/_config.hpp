@@ -10,7 +10,7 @@
 #error "C++ complier required."
 #endif
 
-// ensure cpp std11 is usable
+// ensure cpp std14up is usable
 #if __cplusplus < 201403L
 #error "At least C++14 or higher required"
 #endif

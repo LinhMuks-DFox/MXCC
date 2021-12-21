@@ -9,15 +9,15 @@
 #include "../_builtin_exception.hpp"
 
 namespace MXC::Container {
-    [[deprecated ("Unimplemented yet.")]]
+    
     template<typename T>
-    class LinkedList : public object {
+    class [[deprecated("Unimplemented yet.")]] LinkedList : public object {
     private:
         struct node {
             T *ele;
             node *next;
 
-            void ~node() {
+            ~node() {
                 delete ele;
             }
         } _dummy_head = {nullptr, nullptr};

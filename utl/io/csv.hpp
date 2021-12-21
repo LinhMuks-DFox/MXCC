@@ -13,7 +13,9 @@ namespace MXC::IO {
         uint64 raw, col;
     };
 
-    class CSVParse : public object {
+    class [[deprecated ("Due to behaviour of std::getline() is not unique across platforms, "
+                        "the behaviour of CSVParse is also not unique and is not cross-platform.")]]
+    CSVParse : public object {
     private:
         gl_str _path;
         std::vector<std::vector<gl_str>> _raws{};
