@@ -16,7 +16,7 @@ namespace MXC {
         friend bool operator!=(const Type &type, const Type &self) {
             return !(type == self);
         }
-    }; // for RTTI
+    };// for RTTI
     class object {
     protected:
         bool constructed_obj = false;
@@ -29,7 +29,6 @@ namespace MXC {
         }
 
     public:
-
         explicit object() {
             my_type.type_name = "MXC::object";
             my_type.generation = 0;
@@ -65,6 +64,6 @@ namespace MXC {
     static inline gl_str to_string(const object &obj) noexcept {
         return obj.to_str();
     }
-}
+}// namespace MXC
 
-#endif //MXC__OBJECT_HPP
+#endif//MXC__OBJECT_HPP

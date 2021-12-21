@@ -9,4 +9,4 @@
 
 namespace MXC::Math {
 }
-#endif //MXC_STATISTICS_HPP
+#endif//MXC_STATISTICS_HPP

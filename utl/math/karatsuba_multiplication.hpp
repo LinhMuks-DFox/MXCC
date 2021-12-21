@@ -9,7 +9,7 @@
 
 namespace MXC::Math {
     // Unimplemented
-    class [[deprecated ("Unimplemented yet.")]] KaratsubaArray : object {
+    class [[deprecated("Unimplemented yet.")]] KaratsubaArray : object {
     private:
         std::vector<uint64> _integer_part;
         PNSign _sign = Zero;
@@ -20,7 +20,7 @@ namespace MXC::Math {
         }
 
         explicit KaratsubaArray(const gl_str &str) {
-            for (auto ch: str) {
+            for (auto ch : str) {
                 _integer_part.push_back(char_int_to_int(ch));
             }
         }
@@ -37,5 +37,5 @@ namespace MXC::Math {
             return _integer_part.size();
         }
     };
-}
-#endif //MXC_KARATSUBA_MULTIPLICATION_HPP
+}// namespace MXC::Math
+#endif//MXC_KARATSUBA_MULTIPLICATION_HPP

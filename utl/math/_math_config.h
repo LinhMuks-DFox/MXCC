@@ -1,35 +1,35 @@
 #ifndef MXC__MATH_CONFIG_H
 #define MXC__MATH_CONFIG_H
 
+#include "../_builtin_exception.hpp"
 #include "../_config.hpp"
 #include "../_object.hpp"
-#include "../_builtin_exception.hpp"
 
 // to check if compiler using IEEE-754
-#if !(_MSC_VER && !__INTEL_COMPILER) // if not msvc, check if ieee-754
-    #if __DBL_DIG__ != 15 || __DBL_MANT_DIG__ != 53 || __DBL_MAX_10_EXP__ != 308 || \
+#if !(_MSC_VER && !__INTEL_COMPILER)// if not msvc, check if ieee-754
+#if __DBL_DIG__ != 15 || __DBL_MANT_DIG__ != 53 || __DBL_MAX_10_EXP__ != 308 || \
         __DBL_MAX_EXP__ != 1024 || __DBL_MIN_10_EXP__ != -307 || __DBL_MIN_EXP__ != -1021
-    #error "Requires IEEE 754 floating point"
-    #endif
+#error "Requires IEEE 754 floating point"
+#endif
 #endif
 
 namespace MXC::Math {
 #pragma region constant
     static const constexpr float64 EPSILON(1e-8);
 
-    static const constexpr float64 E(2.71828182845904523536L); // exp
+    static const constexpr float64 E(2.71828182845904523536L);// exp
 
-    static const constexpr float64 PI(3.14159265358979323846L); // pi
+    static const constexpr float64 PI(3.14159265358979323846L);// pi
 
-    static const constexpr float64 PI_2(1.57079632679489661923L); // pi / 2
+    static const constexpr float64 PI_2(1.57079632679489661923L);// pi / 2
 
-    static const constexpr float64 PI_4(0.78539816339744830961L); // pi / 4
+    static const constexpr float64 PI_4(0.78539816339744830961L);// pi / 4
 
-    static const constexpr float64 SQRT_2(1.41421356237309504880L); // sqrt(2)
+    static const constexpr float64 SQRT_2(1.41421356237309504880L);// sqrt(2)
 
-    static const constexpr float64 SQRT_1_2(0.70710678118654752440L); // 1 / sqrt(2)
+    static const constexpr float64 SQRT_1_2(0.70710678118654752440L);// 1 / sqrt(2)
 
-    static const constexpr float64 LOG2_E(1.44269504088896340736L); // log2(E)
+    static const constexpr float64 LOG2_E(1.44269504088896340736L);// log2(E)
 #pragma endregion
 
 #pragma region IEEE754 Special Values
@@ -95,5 +95,5 @@ namespace MXC::Math {
             return '0' - ch;
         throw Exp::BadConvert(gl_str("Can not convert:") + ch + "to int.");
     }
-}
-#endif //MXC__MATH_CONFIG_H
+}// namespace MXC::Math
+#endif//MXC__MATH_CONFIG_H
