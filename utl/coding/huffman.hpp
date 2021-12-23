@@ -27,7 +27,8 @@ namespace MXC::Coding {
             uint64 freq = 0;
             char symbol = '\0';
 
-            _huffman_tree_node(char ch, uint64 fre, _huffman_tree_node *left, _huffman_tree_node *right)
+            _huffman_tree_node(char ch, uint64 fre, _huffman_tree_node *left,
+                               _huffman_tree_node *right)
                 : left(left), right(right), symbol(ch), freq(fre) {}
 
             _huffman_tree_node() = default;
@@ -49,19 +50,22 @@ namespace MXC::Coding {
         void inline _assert_built(const gl_str &input = "") const {
             if (!_is_built)
                 throw Exp::InvalidOperation(
-                        "Cannot encode/decode:" + input + ", HuffmanTree object was not built yet.");
+                        "Cannot encode/decode:" + input +
+                        ", HuffmanTree object was not built yet.");
         }
 
     public:
         HuffmanTree() : object("MXC::Coding::HuffmanTree", 1) {}
 
-        explicit HuffmanTree(std::istream &in) : object("MXC::Coding::HuffmanTree", 1) {
+        explicit HuffmanTree(std::istream &in)
+            : object("MXC::Coding::HuffmanTree", 1) {
             std::unordered_map<char, uint64> f_table;
             word_frequency_stat_and_build(in, f_table);
         }
 
     public:
-        void build_me(const std::unordered_map<char, uint64> &frequency_table) {
+        void
+        build_me(const std::unordered_map<char, uint64> &frequency_table) {
             std::priority_queue<node *, std::vector<node *>, node_cmp> pq;
             for (auto pair : frequency_table) {
                 pq.push(new node(pair.first, pair.second, nullptr, nullptr));
@@ -82,7 +86,8 @@ namespace MXC::Coding {
             _is_built = true;
         }
 
-        void word_frequency_stat_and_build(std::istream &in, std::unordered_map<char, uint64> &table) {
+        void word_frequency_stat_and_build(
+                std::istream &in, std::unordered_map<char, uint64> &table) {
             word_frequency_stat(in, table);
             build_me(table);
         }
@@ -97,7 +102,9 @@ namespace MXC::Coding {
 
         void _build_encode_map(node *node, const gl_str &str) {
             if (node == nullptr) return;
-            if (!node->left && !node->right) { _encode_map[node->symbol] = str; }
+            if (!node->left && !node->right) {
+                _encode_map[node->symbol] = str;
+            }
             _build_encode_map(node->left, str + "0");
             _build_encode_map(node->right, str + "1");
         }
@@ -122,7 +129,8 @@ namespace MXC::Coding {
             return *this;
         }
 
-        HuffmanTree(HuffmanTree &&tree) noexcept : object("MXC::Coding::HuffmanTree", 1) {
+        HuffmanTree(HuffmanTree &&tree) noexcept
+            : object("MXC::Coding::HuffmanTree", 1) {
             if (this != &tree) {
                 this->_decode_map = std::move(tree._decode_map);
                 this->_encode_map = std::move(tree._encode_map);
@@ -143,7 +151,9 @@ namespace MXC::Coding {
 
         gl_str encode(const gl_str &input) {
             _assert_built(input);
-            auto contains = [this](char c) -> bool { return _encode_map.find(c) != _encode_map.end(); };
+            auto contains = [this](char c) -> bool {
+                return _encode_map.find(c) != _encode_map.end();
+            };
             std::stringstream ss;
             for (char i : input) {
                 if (contains(i)) ss << _encode_map[i];
@@ -159,7 +169,9 @@ namespace MXC::Coding {
 
         gl_str decode(const gl_str &bytes) {
             _assert_built(bytes);
-            auto contain = [this](const gl_str &cur) { return this->_decode_map.find(cur) != this->_decode_map.end(); };
+            auto contain = [this](const gl_str &cur) {
+                return this->_decode_map.find(cur) != this->_decode_map.end();
+            };
             gl_str cur;
             std::stringstream ss;
             if (contain(bytes)) {
@@ -199,7 +211,9 @@ namespace MXC::Coding {
         }
 
     public:
-        static void word_frequency_stat(std::istream &in, std::unordered_map<char, uint64> &table) {
+        static void
+        word_frequency_stat(std::istream &in,
+                            std::unordered_map<char, uint64> &table) {
             while (in.good()) {
                 char c = (char) in.get();
                 if (c == EOF) break;

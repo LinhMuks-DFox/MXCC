@@ -3,7 +3,8 @@
 //
 #include "../../csv.hpp"
 
-using namespace MXC;using namespace std;
+using namespace MXC;
+using namespace std;
 
 int main() {
     IO::CSVParse parse("./csv_tester.csv");

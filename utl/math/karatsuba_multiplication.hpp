@@ -15,9 +15,7 @@ namespace MXC::Math {
         PNSign _sign = Zero;
 
     public:
-        KaratsubaArray() {
-            _integer_part.push_back(0);
-        }
+        KaratsubaArray() { _integer_part.push_back(0); }
 
         explicit KaratsubaArray(const gl_str &str) {
             for (auto ch : str) {
@@ -28,14 +26,13 @@ namespace MXC::Math {
     public:
         [[nodiscard]] uint64 at(size_t i) const {
             if (i > _integer_part.size())
-                throw Exp::IndexError(
-                        "Index i is out of range. range: 0~" + std::to_string(i) + ", but:" + std::to_string(i));
+                throw Exp::IndexError("Index i is out of range. range: 0~" +
+                                      std::to_string(i) +
+                                      ", but:" + std::to_string(i));
             return _integer_part[i];
         }
 
-        uint64 size() const {
-            return _integer_part.size();
-        }
+        uint64 size() const { return _integer_part.size(); }
     };
 }// namespace MXC::Math
 #endif//MXC_KARATSUBA_MULTIPLICATION_HPP

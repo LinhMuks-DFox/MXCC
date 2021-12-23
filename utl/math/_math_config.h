@@ -7,8 +7,9 @@
 
 // to check if compiler using IEEE-754
 #if !(_MSC_VER && !__INTEL_COMPILER)// if not msvc, check if ieee-754
-#if __DBL_DIG__ != 15 || __DBL_MANT_DIG__ != 53 || __DBL_MAX_10_EXP__ != 308 || \
-        __DBL_MAX_EXP__ != 1024 || __DBL_MIN_10_EXP__ != -307 || __DBL_MIN_EXP__ != -1021
+#if __DBL_DIG__ != 15 || __DBL_MANT_DIG__ != 53 ||                            \
+        __DBL_MAX_10_EXP__ != 308 || __DBL_MAX_EXP__ != 1024 ||               \
+        __DBL_MIN_10_EXP__ != -307 || __DBL_MIN_EXP__ != -1021
 #error "Requires IEEE 754 floating point"
 #endif
 #endif
@@ -27,7 +28,8 @@ namespace MXC::Math {
 
     static const constexpr float64 SQRT_2(1.41421356237309504880L);// sqrt(2)
 
-    static const constexpr float64 SQRT_1_2(0.70710678118654752440L);// 1 / sqrt(2)
+    static const constexpr float64
+            SQRT_1_2(0.70710678118654752440L);// 1 / sqrt(2)
 
     static const constexpr float64 LOG2_E(1.44269504088896340736L);// log2(E)
 #pragma endregion
@@ -76,24 +78,31 @@ namespace MXC::Math {
 
 #pragma endregion
 
-    static constexpr inline bool float64_eq(const float64 &a, const float64 &b) noexcept {
+    static constexpr inline bool float64_eq(const float64 &a,
+                                            const float64 &b) noexcept {
         return (a - b) < EPSILON;
     }
 
-    static constexpr inline bool float64_neq(const float64 &a, const float64 &b) noexcept {
+    static constexpr inline bool float64_neq(const float64 &a,
+                                             const float64 &b) noexcept {
         return !(float64_eq(a, b));
     }
 
-    enum PNSign {
-        Positive = 1,
-        Negative = -1,
-        Zero = 0
-    };
+    enum PNSign { Positive = 1, Negative = -1, Zero = 0 };
 
     static inline int char_int_to_int(char ch) {
-        if ('0' <= ch && ch <= '9')
-            return '0' - ch;
+        if ('0' <= ch && ch <= '9') return '0' - ch;
         throw Exp::BadConvert(gl_str("Can not convert:") + ch + "to int.");
     }
+    template<uint64 i>
+    struct cumulative {
+        enum { value = i + cumulative<i - 1>::value };
+    };
+
+    template<>
+    struct cumulative<0> {
+        enum { value = 1 };
+    };
+
 }// namespace MXC::Math
 #endif//MXC__MATH_CONFIG_H

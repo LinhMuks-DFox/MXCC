@@ -15,13 +15,13 @@ namespace MXC::Container {
         ~IList() {}
 
     public:
-        virtual inline Dtype &operator[](uint64 idx){} = 0;
+        virtual inline Dtype &operator[](uint64 idx) = 0;
 
-        virtual inline const Dtype &ai_index(uint64 idx) const {} = 0;
+        virtual inline const Dtype &ai_index(uint64 idx) const = 0;
 
-        virtual inline void assign(uint64 idx, Dtype &obj){} = 0;
+        virtual inline void assign(uint64 idx, Dtype &obj) = 0;
 
-        virtual inline void assign(uint64 idx, Dtype &&obj){} = 0;
+        virtual inline void assign(uint64 idx, Dtype &&obj) = 0;
     };
 }// namespace MXC::Container
 

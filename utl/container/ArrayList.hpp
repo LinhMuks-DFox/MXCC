@@ -12,9 +12,7 @@ namespace MXC::Container {
         bool _read_only = true;
 
     public:
-        ~ArrayList() {
-            delete[] _arr;
-        }
+        ~ArrayList() { delete[] _arr; }
     };
 }// namespace MXC::Container
 

@@ -16,9 +16,7 @@ namespace MXC::Container {
             T *ele;
             node *next;
 
-            ~node() {
-                delete ele;
-            }
+            ~node() { delete ele; }
         } _dummy_head = {nullptr, nullptr};
 
         uint64 _size{0};
@@ -35,11 +33,8 @@ namespace MXC::Container {
         }
 
         node *find_node(node * p, const T &i) {// find node.T == i;
-            if (*p->ele == i) {
-                return p;
-            }
-            if (!p->next)
-                return nullptr;
+            if (*p->ele == i) { return p; }
+            if (!p->next) return nullptr;
             return find_node(p->next, i);
         }
 

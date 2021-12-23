@@ -5,26 +5,24 @@
 #ifndef MXC_LOGGER_HPP
 #define MXC_LOGGER_HPP
 
-#include "../_object.hpp"
 #include "../_builtin_exception.hpp"
+#include "../_object.hpp"
 
 namespace MXC::IO {
     class Logger : public object {
     public:
-        enum LogType : int {
-            Error, Info, Debug, Warn
-        };
+        enum LogType : int { Error, Info, Debug, Warn };
 
     private:
-        gl_str _fmt = "[%t]time:<%Y-%M-%D %H:%m:%s>,content:%c ";//[Debug]2021-11-6<23:13:56>: this is a debug msg;
+        gl_str _fmt =
+                "[%t]time:<%Y-%M-%D %H:%m:%s>,content:%c ";//[Debug]2021-11-6<23:13:56>: this is a debug msg;
         gl_str _path;
         std::ofstream *_log_f = nullptr;
-        const std::map<LogType, gl_str> _log_type_convert = {
-                {Error, "FATAL"},
-                {Info,  "INFO"},
-                {Debug, "DEBUG"},
-                {Warn,  "WARN"}
-        };
+        const std::map<LogType, gl_str> _log_type_convert = {{Error, "FATAL"},
+                                                             {Info, "INFO"},
+                                                             {Debug, "DEBUG"},
+                                                             {Warn, "WARN"}};
+
     private:
         void _finalize_file_handle() {
             _log_f->flush();
@@ -40,17 +38,19 @@ namespace MXC::IO {
     public:
         explicit Logger(const gl_str &path) : object("MXC::IO::Logger", 1) {
             this->_log_f = new std::ofstream(path, std::ios::out);
-            if (!_log_f->is_open()) throw Exp::IOError("Can not open file:" + _path);
+            if (!_log_f->is_open())
+                throw Exp::IOError("Can not open file:" + _path);
             _path = path;
         }
 
-        explicit Logger(const gl_str &path, const gl_str &fmt) noexcept: object("MXC::IO::Logger", 1) {
+        explicit Logger(const gl_str &path, const gl_str &fmt) noexcept
+            : object("MXC::IO::Logger", 1) {
             this->_log_f = new std::ofstream(path, std::ios::out);
             this->_fmt = fmt;
             _path = path;
         }
 
-        Logger(Logger &&logger) noexcept: object("MXC::IO::Logger", 1) {
+        Logger(Logger &&logger) noexcept : object("MXC::IO::Logger", 1) {
             _path = logger._path;
             _log_f = logger._log_f;
             _fmt = logger._fmt;
@@ -68,9 +68,7 @@ namespace MXC::IO {
             return *this;
         }
 
-        ~Logger() {
-            _finalize_file_handle();
-        }
+        ~Logger() { _finalize_file_handle(); }
 
         Logger &operator=(const Logger &) = delete;
 
@@ -89,8 +87,9 @@ namespace MXC::IO {
         void set_format(const gl_str &fmt) noexcept { _fmt = fmt; }
 
     private:
-        [[nodiscard]] gl_str _build_content(LogType type, const gl_str &content) const {
-            std::time_t t = std::time(nullptr);   // get time now
+        [[nodiscard]] gl_str _build_content(LogType type,
+                                            const gl_str &content) const {
+            std::time_t t = std::time(nullptr);// get time now
             std::tm *now = std::localtime(&t);
             std::stringstream s_res;
             std::stringstream s_fmt(_fmt);
@@ -98,12 +97,16 @@ namespace MXC::IO {
                 char c = (char) s_fmt.get();
                 if (c == EOF) break;
                 if (c == '%') {
-                    s_res << [&s_fmt, &now, &type, &content, this]() -> gl_str {
+                    s_res <<
+                            [&s_fmt, &now, &type, &content, this]() -> gl_str {
                         switch (s_fmt.peek()) {
                             case 't':
                                 return [this, &type]() -> gl_str {
-                                    auto search = this->_log_type_convert.find(type);
-                                    return search != _log_type_convert.end() ? search->second : "UnknownType";
+                                    auto search =
+                                            this->_log_type_convert.find(type);
+                                    return search != _log_type_convert.end()
+                                                   ? search->second
+                                                   : "UnknownType";
                                 }();
                             case 'D':
                                 return std::to_string(now->tm_mday);
@@ -125,34 +128,40 @@ namespace MXC::IO {
                                 return "Unknown Log Format.";
                         }
                     }();
-                    s_fmt.ignore(); // to skip the fmt char.
+                    s_fmt.ignore();// to skip the fmt char.
                     continue;
                 }
                 s_res << c;
             }
-            if (_fmt.back() != '\n')
-                s_res << "\n";
+            if (_fmt.back() != '\n') s_res << "\n";
             return s_res.str();
         }
 
     public:
-        void error(const gl_str &msg) const noexcept { *_log_f << _build_content(LogType::Error, msg); }
+        void error(const gl_str &msg) const noexcept {
+            *_log_f << _build_content(LogType::Error, msg);
+        }
 
-        template<class Exp=Exp::LoggerError>
+        template<class Exp = Exp::LoggerError>
         void log_and_raise_error(const gl_str &msg) const {
             error(msg);
             _flush_log_file();
             throw Exp(msg);
         }
 
-        void info(const gl_str &msg) const noexcept { *_log_f << _build_content(LogType::Info, msg); }
+        void info(const gl_str &msg) const noexcept {
+            *_log_f << _build_content(LogType::Info, msg);
+        }
 
-        void warn(const gl_str &msg) const noexcept { *_log_f << _build_content(LogType::Warn, msg); }
+        void warn(const gl_str &msg) const noexcept {
+            *_log_f << _build_content(LogType::Warn, msg);
+        }
 
-        void debug(const gl_str &msg) const noexcept { *_log_f << _build_content(LogType::Debug, msg); }
+        void debug(const gl_str &msg) const noexcept {
+            *_log_f << _build_content(LogType::Debug, msg);
+        }
 
     public:
-
         void error_console(const gl_str &msg) const noexcept {
             fflush(stdout);
             fprintf(stderr, "%s", _build_content(LogType::Error, msg).c_str());
@@ -178,11 +187,11 @@ namespace MXC::IO {
         }
 
     public:
-
-        void log_to_std_ostream(std::ostream &ost, const gl_str &content, LogType type) const {
+        void log_to_std_ostream(std::ostream &ost, const gl_str &content,
+                                LogType type) const {
             ost << _build_content(type, content);
         }
     };
 
-}
-#endif //MXC_LOGGER_HPP
+}// namespace MXC::IO
+#endif//MXC_LOGGER_HPP
