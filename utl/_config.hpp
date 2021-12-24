@@ -101,9 +101,5 @@ namespace MXC {
     }
 }// namespace MXC
 #if __cplusplus >= 202002L
-#include <format>
-namespace MXC {
-    using std::format;
-}
 #endif//__cplusplus
 #endif// MXC__CONFIG

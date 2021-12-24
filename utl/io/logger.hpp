@@ -11,7 +11,7 @@
 namespace MXC::IO {
     class Logger : public object {
     public:
-        static enum LogType : int { Error, Info, Debug, Warn };
+        enum LogType : int { Error, Info, Debug, Warn };
 
     private:
         gl_str _fmt = "[%t]time:<%Y-%M-%D %H:%m:%s>,content:%c ";
@@ -35,14 +35,14 @@ namespace MXC::IO {
 
         void _write_log_file(const gl_str &msg) const {
             if (_log_f == nullptr)
-                throw Exp::LoggerError("Log file("s + _path +
-                                       ") cloesd, cannot log anymore."s);
+                throw Exp::LoggerError("Log file(" + _path +
+                                       ") cloesd, cannot log anymore.");
             int res = fputs(msg.c_str(), _log_f);
             if (res == EOF) {
                 fflush(_log_f);
                 fclose(_log_f);
-                throw Exp::EOFError("Log file("s + _path +
-                                    ") EOF, cannot log anymore."s);
+                throw Exp::EOFError("Log file(" + _path +
+                                    ") EOF, cannot log anymore.");
             }
         }
 
