@@ -11,13 +11,12 @@
 namespace MXC::IO {
     class Logger : public object {
     public:
-        enum LogType : int { Error, Info, Debug, Warn };
+        static enum LogType : int { Error, Info, Debug, Warn };
 
     private:
-        gl_str _fmt =
-                "[%t]time:<%Y-%M-%D %H:%m:%s>,content:%c ";//[Debug]2021-11-6<23:13:56>: this is a debug msg;
+        gl_str _fmt = "[%t]time:<%Y-%M-%D %H:%m:%s>,content:%c ";
         gl_str _path;
-        std::ofstream *_log_f = nullptr;
+        FILE *_log_f = nullptr;
         const std::map<LogType, gl_str> _log_type_convert = {{Error, "FATAL"},
                                                              {Info, "INFO"},
                                                              {Debug, "DEBUG"},
@@ -25,30 +24,45 @@ namespace MXC::IO {
 
     private:
         void _finalize_file_handle() {
-            _log_f->flush();
-            _log_f->close();
-            delete _log_f;
+            fflush(_log_f);
+            fclose(_log_f);
             _log_f = nullptr;
         }
 
         void _release_handle() { _log_f = nullptr; }
 
-        void _flush_log_file() const { _log_f->flush(); }
+        void _flush_log_file() const { fflush(_log_f); }
+
+        void _write_log_file(const gl_str &msg) const {
+            if (_log_f == nullptr)
+                throw Exp::LoggerError("Log file("s + _path +
+                                       ") cloesd, cannot log anymore."s);
+            int res = fputs(msg.c_str(), _log_f);
+            if (res == EOF) {
+                fflush(_log_f);
+                fclose(_log_f);
+                throw Exp::EOFError("Log file("s + _path +
+                                    ") EOF, cannot log anymore."s);
+            }
+        }
 
     public:
         explicit Logger(const gl_str &path) : object("MXC::IO::Logger", 1) {
-            this->_log_f = new std::ofstream(path, std::ios::out);
-            if (!_log_f->is_open())
+            this->_log_f = fopen(path.c_str(), "w");
+            if (_log_f == NULL)
                 throw Exp::IOError("Can not open file:" + _path);
             _path = path;
         }
 
         explicit Logger(const gl_str &path, const gl_str &fmt) noexcept
             : object("MXC::IO::Logger", 1) {
-            this->_log_f = new std::ofstream(path, std::ios::out);
+            this->_log_f = fopen(path.c_str(), "w");
             this->_fmt = fmt;
             _path = path;
         }
+
+        explicit Logger() : object("MXC::IO::Logger", 1) {}
+
 
         Logger(Logger &&logger) noexcept : object("MXC::IO::Logger", 1) {
             _path = logger._path;
@@ -139,7 +153,7 @@ namespace MXC::IO {
 
     public:
         void error(const gl_str &msg) const noexcept {
-            *_log_f << _build_content(LogType::Error, msg);
+            _write_log_file(_build_content(LogType::Error, msg));
         }
 
         template<class Exp = Exp::LoggerError>
@@ -150,15 +164,15 @@ namespace MXC::IO {
         }
 
         void info(const gl_str &msg) const noexcept {
-            *_log_f << _build_content(LogType::Info, msg);
+            _write_log_file(_build_content(LogType::Info, msg));
         }
 
         void warn(const gl_str &msg) const noexcept {
-            *_log_f << _build_content(LogType::Warn, msg);
+            _write_log_file(_build_content(LogType::Warn, msg));
         }
 
         void debug(const gl_str &msg) const noexcept {
-            *_log_f << _build_content(LogType::Debug, msg);
+            _write_log_file(_build_content(LogType::Debug, msg));
         }
 
     public:

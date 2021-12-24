@@ -92,7 +92,7 @@ namespace MXC::Math {
 
     static inline int char_int_to_int(char ch) {
         if ('0' <= ch && ch <= '9') return '0' - ch;
-        throw Exp::BadConvert(gl_str("Can not convert:") + ch + "to int.");
+        throw Exp::BadConvert("Can not convert:"s + ch + "to int."s);
     }
     template<uint64 i>
     struct cumulative {

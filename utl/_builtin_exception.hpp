@@ -105,5 +105,14 @@ namespace MXC::Exp {
         explicit BadConvert(const gl_str &msg)
             : BaseException(msg, "MXC::Exp::BadConvert", 2) {}
     };
+
+    class EOFError : public BaseException {
+    public:
+        explicit EOFError(const char *const msg)
+            : BaseException(msg, "MXC::Exp::EOFError", 2) {}
+
+        explicit EOFError(const gl_str &msg)
+            : BaseException(msg, "MXC::Exp::EOFError", 2) {}
+    };
 }// namespace MXC::Exp
 #endif//MXC__BUILTIN_EXCEPTION_HPP
