@@ -5,23 +5,24 @@
 #include "../_object.hpp"
 namespace MXC::Container {
 
-    template<class Dtype>
-    class IList : public object {
+    template<class T>
+    class IList : public virtual object {
     protected:
-        uint64 _size = 0;
-
+        IList() : object("MXC::Container::IList", 1) {}
     public:
-        IList() {}
-        ~IList() {}
+        virtual inline const T &at_index(uint64 idx) const = 0;
 
-    public:
-        virtual inline Dtype &operator[](uint64 idx) = 0;
+        virtual inline void assign(uint64 idx, T &obj) = 0;
 
-        virtual inline const Dtype &ai_index(uint64 idx) const = 0;
+        virtual inline void assign(uint64 idx, T &&obj) = 0;
 
-        virtual inline void assign(uint64 idx, Dtype &obj) = 0;
+        virtual inline int insert(uint64 idx, const T& obj) =0;
 
-        virtual inline void assign(uint64 idx, Dtype &&obj) = 0;
+        virtual inline int insert(uint64 idx, T&& obj) =0;
+
+        virtual inline T&& remove_at(uint64) = 0;
+
+        [[nodiscard]] virtual inline size_t size() const = 0;
     };
 }// namespace MXC::Container
 

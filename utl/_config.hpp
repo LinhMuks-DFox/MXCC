@@ -57,7 +57,6 @@
 #endif
 
 #pragma endregion
-
 namespace MXC {
     typedef std::string gl_str;// global basic string. now is std::string.
 
@@ -79,7 +78,7 @@ namespace MXC {
     using std::endl;
 
     template<class T, memory_length length = 1, bool help_init = false>
-    static inline T *memory_static_allocate() noexcept {
+    static constexpr inline T *memory_static_allocate() noexcept {
         T *ret = (T *) new char[sizeof(T) * length];
         if (help_init)
             for (memory_length p = 0; p < length; ++p)
@@ -88,7 +87,7 @@ namespace MXC {
     }
 
     template<class Ty, bool help_finalize = false, memory_length length = 0>
-    static inline void static_free_memory(Ty **ptr) noexcept {
+    static constexpr inline void static_free_memory(Ty **ptr) noexcept {
         if (help_finalize)
             for (memory_length p = 0; p < length; ++p)
                 (*ptr)[p].~Ty();// placement delete;
