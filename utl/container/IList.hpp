@@ -13,19 +13,19 @@ namespace MXC::Container {
         IList() : object("MXC::Container::IList", 1) {}
 
     public:
-        virtual inline const T &at_index(uint64 idx) const = 0;
+        virtual inline const T &at_index(int64 idx) const = 0;
 
-        virtual inline int assign(uint64 idx, T &obj) = 0;
+        virtual inline void assign(int64 idx, T &obj) = 0;
 
-        virtual inline int assign(uint64 idx, T &&obj) = 0;
+        virtual inline void assign(int64 idx, T &&obj) = 0;
 
-        virtual inline int insert(uint64 idx, const T &obj) = 0;
+        virtual inline void insert(int64 idx, T &obj) = 0;
 
-        virtual inline int insert(uint64 idx, T &&obj) = 0;
+        virtual inline void insert(int64 idx, T &&obj) = 0;
 
-        virtual inline T &&remove_at(uint64 idx) = 0;
+        virtual inline T &&remove_at(int64 idx) = 0;
 
-        [[nodiscard]] virtual inline size_t size() const = 0;
+        [[nodiscard]] virtual inline int64 size() const = 0;
     };
 }// namespace MXC::Container
 
