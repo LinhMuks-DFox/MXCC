@@ -14,9 +14,9 @@ namespace MXC::IO {
     };
 
     class [[deprecated("Due to behaviour of std::getline() is not unique "
-                       "across platforms, "
-                       "the behaviour of CSVParse is also not unique and is "
-                       "not cross-platform.")]] CSVParse : public object {
+    "across platforms, "
+    "the behaviour of CSVParse is also not unique and is "
+    "not cross-platform.")]] CSVParse : public object {
     private:
         gl_str _path;
         std::vector<std::vector<gl_str>> _raws{};
@@ -50,8 +50,8 @@ namespace MXC::IO {
     public:
         [[nodiscard]] gl_str to_str() const noexcept override {
             std::stringstream ss;
-            for (const auto &raw : _raws) {
-                for (const gl_str &content : raw) { ss << content << ","; }
+            for (const auto &raw: _raws) {
+                for (const gl_str &content: raw) { ss << content << ","; }
                 ss << std::endl;
             }
             return ss.str();
@@ -59,7 +59,7 @@ namespace MXC::IO {
 
     public:
         explicit CSVParse(const gl_str &path)
-            : object("MXC::IO::CSVParse", 1) {
+                : object("MXC::IO::CSVParse", 1) {
             _path = path;
             parse();
         }
@@ -68,8 +68,8 @@ namespace MXC::IO {
 
         CSVParse(const CSVParse &) = delete;
 
-        CSVParse(CSVParse && reader) noexcept
-            : object("MXC::IO::CSVParse", 1) {
+        CSVParse(CSVParse &&reader) noexcept
+                : object("MXC::IO::CSVParse", 1) {
             _raws = std::move(reader._raws);
             reader._reset_me();
         }
@@ -85,7 +85,7 @@ namespace MXC::IO {
 
     public:
         [[nodiscard]] const std::vector<gl_str> &operator[](uint64 raw_idx)
-                const {
+        const {
             if (raw_idx > _raws.size())
                 throw Exp::InvalidArgumentError(
                         "CSVParse.get_raw(uint64 raw_idx) failed. raw_idx is "
@@ -93,16 +93,16 @@ namespace MXC::IO {
             return _raws[raw_idx];
         }
 
-        void get_col(std::vector<gl_str> & v, uint64 col_idx) const noexcept {
+        void get_col(std::vector<gl_str> &v, uint64 col_idx) const noexcept {
             if (col_idx > _maximum_col) { return; }
-            for (const std::vector<gl_str> &raw : _raws) {
+            for (const std::vector<gl_str> &raw: _raws) {
                 if (raw.size() < col_idx) { continue; }
                 v.push_back(raw.at(col_idx));
             }
         }
 
         void get_col_by_title(const gl_str &title, std::vector<gl_str> &v)
-                const {
+        const {
             get_col(v, [this, &title] {
                 for (uint64 i = 0; i < this->_raws[0].size(); ++i)
                     if (_raws[0][i] == title) return i;
@@ -151,13 +151,13 @@ namespace MXC::IO {
 
     public:
         explicit CSVWriter(const gl_str &path)
-            : object("MXC::IO::CSVWriter", 1) {
+                : object("MXC::IO::CSVWriter", 1) {
             _f_o = new std::ofstream(path, std::ios::out);
             _path = path;
         }
 
-        CSVWriter(CSVWriter && writer) noexcept
-            : object("MXC::IO::CSVWriter", 1) {
+        CSVWriter(CSVWriter &&writer) noexcept
+                : object("MXC::IO::CSVWriter", 1) {
             _f_o = writer._f_o;
             writer._reset_me();
         }

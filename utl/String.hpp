@@ -8,6 +8,7 @@
 #include "_object.hpp"
 
 namespace MXC {
-    class [[deprecated("Unimplemented yet.")]] String : public object{};
+    class [[deprecated("Unimplemented yet.")]] String : public object {
+    };
 }
 #endif//MXC_STRING_HPP

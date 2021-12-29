@@ -55,7 +55,8 @@ namespace MXC {
             return reinterpret_cast<size_t>(this);
         }
 
-        friend std::ostream &operator<<(std::ostream &os, const MXC::object &obj) noexcept {
+        friend std::ostream &
+        operator<<(std::ostream &os, const MXC::object &obj) noexcept {
             os << obj.to_str();
             return os;
         }

@@ -5,6 +5,10 @@
 #include "IList.hpp"
 
 #define VECTOR_OBJECT_INIT object("MXC::Container::Vector", 2)
+#define INDEX_RANGE_CHECK   \
+    if (idx > _size)        \
+        throw Exp::InvalidOperation("index out of range.");
+
 namespace MXC::Container {
 
     template<class T, size_t default_size = 1024>
@@ -56,22 +60,40 @@ namespace MXC::Container {
             v._release_source();
         }
 
-        Vector(Vector &&v) noexcept: _arr(v._arr), _size(v._arr), _read_only(v._read_only) {
+        Vector(Vector &&v) noexcept: _arr(v._arr), _size(v._arr),
+                                     _read_only(v._read_only) {
             v._release_source();
         }
 
     public:
-        inline const T &at_index(uint64 idx) const {}
+        inline const T &at_index(uint64 idx) const override {
+            INDEX_RANGE_CHECK
+            return _arr[idx];
+        }
 
-        inline void assign(uint64 idx, T &obj) {}
+        inline int assign(uint64 idx, T &obj) override {
+            INDEX_RANGE_CHECK
+            _arr[idx] = std::move(obj);
+        }
 
-        inline void assign(uint64 idx, T &&obj) {}
+        inline int assign(uint64 idx, T &&obj) override {
+            INDEX_RANGE_CHECK
+            _arr[idx] = std::move(obj);
+        }
 
-        inline int insert(uint64 idx, const T &obj) {}
+        inline int insert(uint64 idx, const T &obj) override {
+            INDEX_RANGE_CHECK
+            return 0;
+        }
 
-        inline int insert(uint64 idx, T &&obj) {}
+        inline int insert(uint64 idx, T &&obj) override {
+            INDEX_RANGE_CHECK
+        }
 
-        inline T &&remove_at(uint64) {}
+        inline T &&remove_at(uint64 idx)
+        override {
+            INDEX_RANGE_CHECK
+        }
 
         [[nodiscard]] inline size_t size() const override {
             return this->size;

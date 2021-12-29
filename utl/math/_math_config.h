@@ -7,8 +7,8 @@
 
 // to check if compiler using IEEE-754
 #if !(_MSC_VER && !__INTEL_COMPILER)// if not msvc, check if ieee-754
-#if __DBL_DIG__ != 15 || __DBL_MANT_DIG__ != 53 ||                            \
-        __DBL_MAX_10_EXP__ != 308 || __DBL_MAX_EXP__ != 1024 ||               \
+#if __DBL_DIG__ != 15 || __DBL_MANT_DIG__ != 53 || \
+        __DBL_MAX_10_EXP__ != 308 || __DBL_MAX_EXP__ != 1024 || \
         __DBL_MIN_10_EXP__ != -307 || __DBL_MIN_EXP__ != -1021
 #error "Requires IEEE 754 floating point"
 #endif
@@ -88,20 +88,27 @@ namespace MXC::Math {
         return !(float64_eq(a, b));
     }
 
-    enum PNSign { Positive = 1, Negative = -1, Zero = 0 };
+    enum PNSign {
+        Positive = 1, Negative = -1, Zero = 0
+    };
 
     static inline int char_int_to_int(char ch) {
         if ('0' <= ch && ch <= '9') return '0' - ch;
         throw Exp::BadConvert("Can not convert:"s + ch + "to int."s);
     }
+
     template<uint64 i>
     struct cumulative {
-        enum { value = i + cumulative<i - 1>::value };
+        enum {
+            value = i + cumulative<i - 1>::value
+        };
     };
 
     template<>
     struct cumulative<0> {
-        enum { value = 1 };
+        enum {
+            value = 1
+        };
     };
 
 }// namespace MXC::Math
