@@ -34,6 +34,13 @@ namespace MXC {
             my_type.generation = 0;
         };
 
+        object(object&& obj) noexcept {
+            my_type.type_name = std::move(obj.my_type.type_name);
+            my_type.generation = obj.my_type.generation;
+            obj.constructed_obj = false;
+            constructed_obj = true;
+        }
+
 
         ~object() = default;
 

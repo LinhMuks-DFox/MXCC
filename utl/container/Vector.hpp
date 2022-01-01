@@ -19,20 +19,14 @@ namespace MXC::Container {
         int64 _size = 0, _capacity = 0;
     public:
         ~Vector() {
+            clean();
             delete[](char *) _arr;
             _arr = nullptr;
             _size = 0;
         }
 
-    private:
-        void _release_source() {
-            _arr = nullptr;
-            _size = 0;
-            _read_only = true;
-        }
-
     public:
-        explicit Vector() : VECTOR_OBJECT_INIT {
+        Vector() : VECTOR_OBJECT_INIT {
             _arr = (T *) new char[sizeof(T) * default_size];
             _size = 0;
             _capacity = default_size;
@@ -64,7 +58,7 @@ namespace MXC::Container {
         }
 
         Vector(Vector &&v) noexcept: _arr(v._arr), _size(v._arr),
-                                     _read_only(v._read_only) {
+                                     _read_only(v._read_only), VECTOR_OBJECT_INIT {
             v._release_source();
         }
 
@@ -82,7 +76,14 @@ namespace MXC::Container {
             _resize(_capacity / 2);
         }
 
-    public:
+        void _release_source() {
+            _arr = nullptr;
+            _size = 0;
+            _read_only = true;
+        }
+
+
+    public: /* overriding MXC::Container::IList<T> */
         inline const T &at_index(int64 idx) const override {
             INDEX_RANGE_CHECK
             return _arr[idx];
@@ -133,8 +134,28 @@ namespace MXC::Container {
             return this->_size;
         }
 
+    public: /* not override Method */
+
+        void clean() {
+            for (auto i = 0; i < _size; ++i) {
+                _arr[i].~T();
+            }
+            _size = 0;
+        }
+
+        void init_all() {
+            for (auto i = _size; i < _capacity; ++i) {
+                _arr[i].T();
+            }
+            _size = _capacity;
+        }
+
         [[nodiscard]] inline int64 capacity() const {
             return this->_capacity;
+        }
+
+        [[nodiscard]] inline bool empty() const {
+            return _size == 0;
         }
 
         inline void reserve(int64 size) {
@@ -157,6 +178,18 @@ namespace MXC::Container {
 
         inline void add_first(T &&obj) {
             insert(0, std::move(obj));
+        }
+
+        inline void append(std::initializer_list<T> list) {
+            if (_capacity - _size <= list.size())
+                _resize(_capacity + 2 * list.size());
+            if (empty()) {
+                reserve(list.size());
+                std::copy(std::begin(list), std::end(list), _arr);
+                return;
+            }
+            std::copy(std::begin(list), std::end(list), _arr + _size);
+            _size += list.size();
         }
     };
 }// namespace MXC::Container
