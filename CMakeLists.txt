@@ -9,6 +9,7 @@ add_library( MXC SHARED tester_main.cpp
         utl/math/math.hpp
         utl/String.hpp
         utl/math/_math_config.h
+        utl/math/linear/linearspace.hpp
         utl/_builtin_exception.hpp
         utl/io/csv.hpp
         utl/container/LinkedList.hpp
