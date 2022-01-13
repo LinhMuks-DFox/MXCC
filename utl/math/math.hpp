@@ -42,6 +42,8 @@ namespace MXC::Math {
     [[deprecated("Unimplemented yet.")]] static inline float64 log_n() {}
 
     [[deprecated("Unimplemented yet.")]] static inline float64 log10() {}
+
+    // From: https://www.zhihu.com/question/35122102
     template<typename T>
     struct i_sqrt_traits {
         static_assert(std::is_unsigned<T>::value,
