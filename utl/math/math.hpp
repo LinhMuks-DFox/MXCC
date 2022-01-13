@@ -42,7 +42,51 @@ namespace MXC::Math {
     [[deprecated("Unimplemented yet.")]] static inline float64 log_n() {}
 
     [[deprecated("Unimplemented yet.")]] static inline float64 log10() {}
+    template<typename T>
+    struct i_sqrt_traits {
+        static_assert(std::is_unsigned<T>::value,
+                      "Generic i_sqrt only on unsigned types");
+        static size_t bitCount(const T &n) {
+            T a(n);
+            size_t count = 0;
+            while (a > 0) {
+                a >>= 2;
+                count += 2;
+            }
+            return count;
+        }
 
+        static uint8_t extractTowBitsAt(const T &n, size_t i) {
+            return static_cast<uint8_t>((n >> i) & 3);
+        }
+    };
+    template<typename T>
+    T i_sqrt(const T &n) {
+        T remainder{}, root{};
+        auto bitCount = i_sqrt_traits<T>::bitCount(n);
+        for (size_t i = bitCount; i > 0;) {
+            i -= 2;
+            root <<= 1;
+            ++root;
+            remainder <<= 2;
+            remainder |= i_sqrt_traits<T>::extractTowBitsAt(n, i);
+            if (root <= remainder) {
+                remainder -= root;
+                ++root;
+            } else
+                --root;
+        }
+
+        return root >>= 1;
+    }
+    bool is_prime(const uint64 &num) {
+        if (num < 1) return false;
+        auto limit = i_sqrt<uint64>(num);
+        for (auto i = 2; i < limit; ++i) {
+            if (num % i == 0) { return false; }
+        }
+        return true;
+    }
 #pragma endregion
 }// namespace MXC::Math
 #endif//MXC_MATH_HPP
