@@ -14,18 +14,8 @@ namespace MXC::Math {
 #pragma region logarithm
 
 
-    [[deprecated("Unimplemented yet.")]] static inline float64
-    log_2(float64 v) {}
-
-    [[deprecated("Unimplemented yet.")]] static inline float64
-    log_exp(float64 v) {}
-
-    [[deprecated("Unimplemented yet.")]] static inline float64 log_n() {}
-
-    [[deprecated("Unimplemented yet.")]] static inline float64 log10() {}
-    [[deprecated("Unimplemented yet.")]] static inline float64
-
-    log_base(float64 value, float64 base) {
+    [[deprecated("Untested yet.")]] static inline float64
+    log_base(const float64 &value, const float64 &base) {
         /*!
          * log function in MXC return log value same as std::log()
          * when value eq 1, return 0.0
@@ -36,10 +26,28 @@ namespace MXC::Math {
         if (float64_eq(value, 1.0)) return poz_zero();
         if (float64_eq(value, 0.0)) return neg_infinity();
         if (value < 0.0) return nan();
-        // TODO: implement log_base.(logarithm of x base b = log(x)/log(b))
-
-        return log_2(base) / log_2(value);
+        return std::log(base) / std::log(value);
     }
+
+    static inline float64 quick_mul(const float64 &x, const int64 &N) noexcept {
+        float64 ans = 1.0;
+        auto n = N;
+        auto x_contribute = x;
+        while (n > 0) {
+            if (n % 2) {
+                ans *= x_contribute;
+            }
+            x_contribute *= x_contribute;
+            n /= 2;
+        }
+        return ans;
+    }
+
+    static inline float64 pow(const float64 &x, const int32 &n) noexcept {
+        int64 N = n;
+        return N >= 0 ? quick_mul(x, N) : 1.0 / quick_mul(x, -N);
+    }
+
     // From: https://www.zhihu.com/question/35122102
     template<typename T>
     struct i_sqrt_traits {
