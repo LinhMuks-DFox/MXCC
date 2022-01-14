@@ -50,8 +50,8 @@ namespace MXC::Coding {
         void inline _assert_built(const gl_str &input = "") const {
             if (!_is_built)
                 throw Exp::InvalidOperation(
-                        "Cannot encode/decode:"s + input +
-                        ", HuffmanTree object was not built yet."s);
+                        "Cannot encode/decode:" + input +
+                        ", HuffmanTree object was not built yet.");
         }
 
     public:
@@ -158,7 +158,7 @@ namespace MXC::Coding {
             for (char i: input) {
                 if (contains(i)) ss << _encode_map[i];
                 else {
-                    throw Exp::EncodeError("can not encode char:"s + i);
+                    throw Exp::EncodeError("can not encode char:" + i);
                 }
             }
             ss << std::flush;
@@ -219,6 +219,6 @@ namespace MXC::Coding {
             }
         }
     };
-
-}// namespace MXC::Coding
+)
+} // namespace MXC::Coding
 #endif//MXC_HUFFMAN_HPP
