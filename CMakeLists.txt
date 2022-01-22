@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 project(MXC)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 add_library( MXC SHARED tester_main.cpp
         utl/MXC.hpp
@@ -18,7 +18,11 @@ add_library( MXC SHARED tester_main.cpp
         utl/coding/huffman.hpp
         utl/math/karatsuba_multiplication.hpp
         utl/container/Vector.hpp
-        utl/container/IList.hpp)
+        utl/container/IList.hpp
+        utl/container/OrderedVector.hpp
+        utl/algorithm/Sorter.hpp
+        utl/algorithm/_sorter_base.hpp
+        )
 # put this after add_library
 if(MSVC)
     target_compile_options(MXC PUBLIC "/Zc:__cplusplus")

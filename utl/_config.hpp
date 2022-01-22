@@ -37,7 +37,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-
+#include <type_traits>
 #pragma region OS_MACRO
 
 #if defined(_WIN32) || defined(_WIN64) || \

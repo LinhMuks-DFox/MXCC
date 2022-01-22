@@ -5,6 +5,11 @@
 
 using namespace MXC;
 using namespace std;
+
+auto test() -> double {
+    return 0.0;
+}
+
 int main() {
     cout << Math::cumulative<3>::value << endl;
     return 0;
