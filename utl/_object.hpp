@@ -2,8 +2,7 @@
 #define MXC__OBJECT_HPP
 
 
-#include "_config.hpp"
-
+#include "_config.hpp"}
 namespace MXC {
     struct Type {
         gl_str type_name;
@@ -72,6 +71,15 @@ namespace MXC {
     static inline gl_str to_string(const object &obj) noexcept {
         return obj.to_str();
     }
-}// namespace MXC
 
+    template <typename T>
+    struct is_object{
+        constexpr static bool value = false;
+    };
+
+    template<>
+    struct is_object<object> {
+        constexpr static bool value = true;
+    };
+}// namespace MXC
 #endif//MXC__OBJECT_HPP

@@ -24,7 +24,7 @@ namespace MXC::Coding {
         typedef std::pair<char, int> frequency_pair;// symbol, frequency
         typedef struct _huffman_tree_node {
             _huffman_tree_node *left = nullptr, *right = nullptr;
-            int64 freq = 0;
+            uint64 freq = 0;
             char symbol = '\0';
 
             _huffman_tree_node(char ch, uint64 fre, _huffman_tree_node *left,
@@ -50,8 +50,8 @@ namespace MXC::Coding {
         void inline _assert_built(const gl_str &input = "") const {
             if (!_is_built)
                 throw Exp::InvalidOperation(
-                        "Cannot encode/decode:" + input +
-                        ", HuffmanTree object was not built yet.");
+                        "Cannot encode/decode:"s + input +
+                        ", HuffmanTree object was not built yet."s);
         }
 
     public:
@@ -158,7 +158,7 @@ namespace MXC::Coding {
             for (char i: input) {
                 if (contains(i)) ss << _encode_map[i];
                 else {
-                    throw Exp::EncodeError("can not encode char:" + std::to_string(i));
+                    throw Exp::EncodeError("can not encode char:"s + i);
                 }
             }
             ss << std::flush;
