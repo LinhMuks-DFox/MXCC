@@ -38,6 +38,8 @@
 #include <unordered_map>
 #include <vector>
 #include <type_traits>
+#include <compare>
+
 #pragma region OS_MACRO
 
 #if defined(_WIN32) || defined(_WIN64) || \
