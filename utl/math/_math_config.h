@@ -97,19 +97,7 @@ namespace MXC::Math {
         throw Exp::BadConvert("Can not convert:"s + ch + "to int."s);
     }
 
-    template<uint64 i>
-    struct cumulative {
-        enum {
-            value = i + cumulative<i - 1>::value
-        };
-    };
 
-    template<>
-    struct cumulative<0> {
-        enum {
-            value = 1
-        };
-    };
 
 }// namespace MXC::Math
 #endif//MXC__MATH_CONFIG_H

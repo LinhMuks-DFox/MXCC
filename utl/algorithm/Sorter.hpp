@@ -14,6 +14,9 @@ namespace MXC::Algorithm {
         QuickSorter(std::iterator<T> begin, std::iterator<T> end) : Sorter<T>(
                 "MXC::Algorithm::QuickSorter", 2) {
         }
+
+    public:
+        void sort() final {}
     }
 }
 #endif //MXC_SORTER_HPP

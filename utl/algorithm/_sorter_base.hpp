@@ -20,7 +20,7 @@ namespace MXC::Algorithm {
     template<typename T> requires std::three_way_comparable<T> || CSortable<T>
     class Sorter : public object {
     protected:
-        Sorter(gl_str &name, uint32 gen) : object(name, gen) {
+        Sorter(gl_str &name, uint32 gen) : object(std::move(name), gen) {
 
         }
 

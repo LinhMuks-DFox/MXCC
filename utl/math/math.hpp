@@ -100,5 +100,43 @@ namespace MXC::Math {
     }
 
 #pragma endregion
+
+    template<uint64 i>
+    struct cumulative {
+        enum {
+            value = i + cumulative<i - 1>::value
+        };
+    };
+
+    template<>
+    struct cumulative<0> {
+        enum {
+            value = 1
+        };
+    };
+
+    // Fibonacci<10>
+    template<int N, typename T = unsigned int>
+    requires std::unsigned_integral<T>
+    struct Fibonacci {
+        constexpr static T value = Fibonacci<N - 1, T>::value + Fibonacci<N - 2, T>::value;
+    };
+
+    template<std::unsigned_integral T>
+    struct Fibonacci<1, T> {
+        constexpr static T value = 1;
+    };
+
+
+    template<std::unsigned_integral T>
+    struct Fibonacci<0, T> {
+        constexpr static T value = 0;
+    };
+
+    template<std::unsigned_integral T>
+    struct Fibonacci<2, T> {
+        constexpr static T value = 1;
+    };
+
 }// namespace MXC::Math
 #endif//MXC_MATH_HPP

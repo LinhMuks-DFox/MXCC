@@ -2,7 +2,7 @@
 #define MXC__OBJECT_HPP
 
 
-#include "_config.hpp"}
+#include "_config.hpp"
 namespace MXC {
     struct Type {
         gl_str type_name;
