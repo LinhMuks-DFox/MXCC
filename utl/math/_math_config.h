@@ -36,7 +36,7 @@ namespace MXC::Math {
 
 #pragma region IEEE754 Special Values
 
-    static constexpr inline float32 infinity() {
+    static inline float32 infinity() {
         const union {
             uint32 i;
             float32 y;
@@ -44,7 +44,7 @@ namespace MXC::Math {
         return _f.y;
     }
 
-    static constexpr inline float32 nan() {
+    static  inline float32 nan() {
         const union {
             uint32 i;
             float32 y;
@@ -60,7 +60,7 @@ namespace MXC::Math {
         return _f.y;
     }
 
-    static constexpr inline float32 neg_zero() {
+    static  inline float32 neg_zero() {
         const union {
             uint32 i;
             float32 y;
@@ -68,7 +68,7 @@ namespace MXC::Math {
         return _f.y;
     }
 
-    static constexpr inline float32 neg_infinity() {
+    static  inline float32 neg_infinity() {
         const union {
             uint32 i;
             float32 y;
@@ -94,7 +94,7 @@ namespace MXC::Math {
 
     static inline int char_int_to_int(char ch) {
         if ('0' <= ch && ch <= '9') return '0' - ch;
-        throw Exp::BadConvert("Can not convert:"s + ch + "to int."s);
+        throw Exp::BadConvert(gl_str {"Can not convert:"} + ch + "to int.");
     }
 
 

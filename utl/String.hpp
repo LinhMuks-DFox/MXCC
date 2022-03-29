@@ -6,7 +6,6 @@
 #define MXC_STRING_HPP
 
 #include "_object.hpp"
-
 namespace MXC {
     class [[deprecated("Unimplemented yet.")]] String : public object {
     };

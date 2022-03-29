@@ -22,12 +22,17 @@ add_library( MXC SHARED tester_main.cpp
         utl/container/OrderedVector.hpp
         utl/algorithm/Sorter.hpp
         utl/algorithm/_sorter_base.hpp
-        )
+        utl/container/JumpList.hpp)
 # put this after add_library
 if(MSVC)
     target_compile_options(MXC PUBLIC "/Zc:__cplusplus")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17 /Zc:__cplusplus")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++20 /Zc:__cplusplus")
+endif()
+
+if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.12.25835)
+    set(CMAKE_CXX20_STANDARD_COMPILE_OPTION "-std:c++latest")
+    set(CMAKE_CXX20_EXTENSION_COMPILE_OPTION "-std:c++latest")
 endif()
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-add_executable(CompileTester tester_main.cpp)
+add_executable(CompileTester tester_main.cpp utl/container/JumpList.hpp)
 target_link_libraries(CompileTester MXC)

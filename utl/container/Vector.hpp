@@ -4,7 +4,7 @@
 
 #include "IList.hpp"
 
-#define VECTOR_OBJECT_INIT object("MXC::Container::Vector", 2), IList<T>()
+#define VECTOR_OBJECT_INIT IList<T>("MXC::Container::Vector", 2)
 #define INDEX_RANGE_CHECK   \
     if (idx > _size)        \
         throw Exp::InvalidOperation("index out of range.");

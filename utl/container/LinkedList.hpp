@@ -28,7 +28,7 @@ namespace MXC::Container {
         void delete_nodes(node *node) {
             if (!node)// nullptr: (void*) 0x00;
                 return;
-            delete_nodes(node.next);
+            delete_nodes(node->next);
             delete node;
         }
 
