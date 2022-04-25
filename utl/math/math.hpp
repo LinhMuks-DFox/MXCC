@@ -116,10 +116,10 @@ namespace MXC::Math {
     };
 
     // Fibonacci<10>
-    template<int N, typename T = unsigned int>
-    requires std::unsigned_integral<T>
+    template<int N, typename T = unsigned int> requires std::unsigned_integral<T>
     struct Fibonacci {
-        constexpr static T value = Fibonacci<N - 1, T>::value + Fibonacci<N - 2, T>::value;
+        constexpr static T value =
+                Fibonacci<N - 1, T>::value + Fibonacci<N - 2, T>::value;
     };
 
     template<std::unsigned_integral T>
@@ -138,5 +138,11 @@ namespace MXC::Math {
         constexpr static T value = 1;
     };
 
+    // use difference equation: y(n+2) - y(n+1) -y(n) = 0
+    inline size_t fibonacci_get_n(size_t n) {
+        auto sqrt5 = sqrt(5);
+        return (1 / sqrt5) * pow(((1 + sqrt5) / 2), n)
+               - (1 / sqrt5) * pow((1 - sqrt5) / 2, n);
+    }
 }// namespace MXC::Math
 #endif//MXC_MATH_HPP
