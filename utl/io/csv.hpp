@@ -133,7 +133,21 @@ namespace MXC::IO {
     };
 
     template<int buffer_line_cnt = 5>
-    class CSVMapReader{};
+    class CSVMapReader : public object {
+    private:
+        gl_str buffer;
+        std::fstream &fin;
+    public:
+        CSVMapReader(std::ifstream &fin) : object("MXC::IO::CSVMapReader", 1) {
+            if (!fin.is_open()) {
+                throw Exp::IOError("Can not read from a closed std::ifstream");
+            }
+            this->fin = fin;
+        }
+
+    public:
+        void parse_next(std::map<gl_str, gl_str> &des_map) {}
+    };
 
     class [[deprecated("Unimplemented yet.")]] CSVWriter : public object {
     private:
