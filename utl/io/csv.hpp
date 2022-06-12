@@ -132,6 +132,9 @@ namespace MXC::IO {
         }
     };
 
+    template<int buffer_line_cnt = 5>
+    class CSVMapReader{};
+
     class [[deprecated("Unimplemented yet.")]] CSVWriter : public object {
     private:
         std::ofstream *_f_o = nullptr;
