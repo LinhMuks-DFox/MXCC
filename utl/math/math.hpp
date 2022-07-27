@@ -5,7 +5,7 @@
 #ifndef MXC_MATH_HPP
 #define MXC_MATH_HPP
 
-#include "../_config.hpp"
+#include "_math_config.h"
 #include <cmath>
 
 namespace MXC::Math {
