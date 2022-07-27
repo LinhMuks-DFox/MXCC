@@ -5,7 +5,7 @@
 #ifndef MXC_STRING_HPP
 #define MXC_STRING_HPP
 
-#include "_object.hpp"
+#include "../_object.hpp"
 namespace MXC {
     class [[deprecated("Unimplemented yet.")]] String : public object {
     };
