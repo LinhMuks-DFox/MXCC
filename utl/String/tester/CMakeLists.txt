@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.15)
+set(CMAKE_CXX_STANDARD 17)
+project(StringTester)
+
+add_executable(StringTester ../StringUtl.hpp StringUtlTestMain.cpp)
+if(MSVC)
+    target_compile_options(StringTester PRIVATE /W4 /WX)
+else()
+    target_compile_options(StringTester PRIVATE -Wall)
+endif()
