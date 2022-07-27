@@ -93,7 +93,7 @@ namespace MXC::Math {
         if (num < 1) return false;
         if (num == 2) return true;
         auto limit = i_sqrt<uint64>(num);
-        for (auto i = 2; i < limit; ++i) {
+        for (uint64 i = 2; i < limit; ++i) {
             if (num % i == 0) { return false; }
         }
         return true;

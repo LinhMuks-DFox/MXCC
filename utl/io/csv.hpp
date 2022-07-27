@@ -133,7 +133,7 @@ namespace MXC::IO {
     };
 
     template<int _buffer_line_cnt = 5>
-    class CSVMapReader : public object {
+    class [[deprecated("Not implemented yet")]] CSVMapReader : public object {
     private:
         std::vector<gl_str> buffer;
     public:

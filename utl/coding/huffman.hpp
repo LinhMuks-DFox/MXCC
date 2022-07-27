@@ -29,7 +29,7 @@ namespace MXC::Coding {
 
             _huffman_tree_node(char ch, uint64 fre, _huffman_tree_node *left,
                                _huffman_tree_node *right)
-                    : left(left), right(right), symbol(ch), freq(fre) {}
+                    : left(left), right(right), freq(fre), symbol(ch) {}
 
             _huffman_tree_node() = default;
 

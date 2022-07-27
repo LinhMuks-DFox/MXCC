@@ -36,3 +36,13 @@ endif()
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 add_executable(CompileTester tester_main.cpp utl/container/JumpList.hpp utl/StringUtl.hpp)
 target_link_libraries(CompileTester MXC)
+
+
+# Set warning all
+if(MSVC)
+    target_compile_options(MXC PRIVATE /W4 /WX)
+else()
+    target_compile_options(MXC PRIVATE -Wall
+            #-Wextra -Wpedantic -Werror
+            )
+endif()
