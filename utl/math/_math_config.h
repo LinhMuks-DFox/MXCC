@@ -16,22 +16,22 @@
 
 namespace MXC::Math {
 #pragma region constant
-    static const constexpr float64 EPSILON(1e-8);
+    static const constexpr float64 EPSILON{1e-8};
 
-    static const constexpr float64 E(2.71828182845904523536L);// exp
+    static const constexpr float64 E{2.71828182845904523536L};// exp
 
-    static const constexpr float64 PI(3.14159265358979323846L);// pi
+    static const constexpr float64 PI{3.14159265358979323846L};// pi
 
-    static const constexpr float64 PI_2(1.57079632679489661923L);// pi / 2
+    static const constexpr float64 PI_2{1.57079632679489661923L};// pi / 2
 
-    static const constexpr float64 PI_4(0.78539816339744830961L);// pi / 4
+    static const constexpr float64 PI_4{0.78539816339744830961L};// pi / 4
 
-    static const constexpr float64 SQRT_2(1.41421356237309504880L);// sqrt(2)
+    static const constexpr float64 SQRT_2{1.41421356237309504880L};// sqrt{2}
 
     static const constexpr float64
-            SQRT_1_2(0.70710678118654752440L);// 1 / sqrt(2)
+            SQRT_1_2{0.70710678118654752440L};// 1 / sqrt{2}
 
-    static const constexpr float64 LOG2_E(1.44269504088896340736L);// log2(E)
+    static const constexpr float64 LOG2_E{1.44269504088896340736L};// log2(E}
 #pragma endregion
 
 #pragma region IEEE754 Special Values
@@ -44,7 +44,7 @@ namespace MXC::Math {
         return _f.y;
     }
 
-    static  inline float32 nan() {
+    static inline float32 nan() {
         const union {
             uint32 i;
             float32 y;
@@ -60,7 +60,7 @@ namespace MXC::Math {
         return _f.y;
     }
 
-    static  inline float32 neg_zero() {
+    static inline float32 neg_zero() {
         const union {
             uint32 i;
             float32 y;
@@ -68,7 +68,7 @@ namespace MXC::Math {
         return _f.y;
     }
 
-    static  inline float32 neg_infinity() {
+    static inline float32 neg_infinity() {
         const union {
             uint32 i;
             float32 y;
@@ -88,15 +88,14 @@ namespace MXC::Math {
         return !(float64_eq(a, b));
     }
 
-    enum PNSign {
+    enum PNSign : int8_t {
         Positive = 1, Negative = -1, Zero = 0
     };
 
     static inline int char_int_to_int(char ch) {
         if ('0' <= ch && ch <= '9') return '0' - ch;
-        throw Exp::BadConvert(gl_str {"Can not convert:"} + ch + "to int.");
+        throw Exp::BadConvert(gl_str{"Can not convert:"} + ch + "to int.");
     }
-
 
 
 }// namespace MXC::Math

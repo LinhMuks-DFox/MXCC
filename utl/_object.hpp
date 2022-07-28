@@ -3,6 +3,7 @@
 
 
 #include "_config.hpp"
+
 namespace MXC {
     struct Type {
         gl_str type_name;
@@ -33,7 +34,7 @@ namespace MXC {
             my_type.generation = 0;
         };
 
-        object(object&& obj) noexcept {
+        object(object &&obj) noexcept {
             my_type.type_name = std::move(obj.my_type.type_name);
             my_type.generation = obj.my_type.generation;
             obj.constructed_obj = false;
@@ -72,8 +73,12 @@ namespace MXC {
         return obj.to_str();
     }
 
-    template <typename T>
-    struct is_object{
+    auto get_hash = [](const object &obj) -> size_t {
+        return obj.get_hash();
+    };
+
+    template<typename T>
+    struct is_object {
         constexpr static bool value = false;
     };
 

@@ -22,7 +22,7 @@ add_library( MXC SHARED tester_main.cpp
         utl/container/OrderedVector.hpp
         utl/algorithm/Sorter.hpp
         utl/algorithm/_sorter_base.hpp
-        utl/container/JumpList.hpp utl/String/StringUtl.hpp)
+        utl/container/JumpList.hpp utl/String/StringUtl.hpp utl/container/HashMap.hpp)
 # put this after add_library
 if(MSVC)
     target_compile_options(MXC PUBLIC "/Zc:__cplusplus")

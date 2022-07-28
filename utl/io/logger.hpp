@@ -38,7 +38,7 @@ namespace MXC::IO {
         void _write_log_file(const gl_str &msg) const {
             if (_log_f == nullptr)
                 throw Exp::LoggerError("Log file(" + _path +
-                                       ") cloesd, cannot log anymore.");
+                                       ") closed, cannot log anymore.");
             int res = fputs(msg.c_str(), _log_f);
             if (res == EOF) {
                 fflush(_log_f);
@@ -51,7 +51,7 @@ namespace MXC::IO {
     public:
         explicit Logger(const gl_str &path) : object("MXC::IO::Logger", 1) {
             this->_log_f = fopen(path.c_str(), "w");
-            if (_log_f == NULL)
+            if (_log_f == nullptr)
                 throw Exp::IOError("Can not open file:" + _path);
             _path = path;
         }

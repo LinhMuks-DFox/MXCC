@@ -8,3 +8,4 @@ out
 CMakeSettings.json
 /.clang-format
 autopp_cheatlist/
+*/cmake-build*/
