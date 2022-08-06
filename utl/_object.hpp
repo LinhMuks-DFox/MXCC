@@ -9,20 +9,24 @@ namespace MXC {
         gl_str type_name;
         uint32 generation;
 
-        friend bool operator==(const Type &type, const Type &self) {
+        friend bool operator==(const Type &type, const Type &self) noexcept {
             return type.type_name == self.type_name && type.generation == self.generation;
         }
 
-        friend bool operator!=(const Type &type, const Type &self) {
+        friend bool operator!=(const Type &type, const Type &self) noexcept {
             return !(type == self);
         }
     };// for RTTI
+    auto CompareGeneration = [](const Type &t_i, const Type &t_j) -> int {
+        return (int) (t_i.generation - t_j.generation);
+    };
+
     class object {
     protected:
         bool constructed_obj = false;
         Type my_type{};
 
-        explicit object(const char *const type) {
+        explicit object(const char *const type) noexcept {
             this->my_type.type_name = type;
             this->my_type.generation = 1;
             this->constructed_obj = true;
@@ -44,7 +48,7 @@ namespace MXC {
 
         ~object() = default;
 
-        object(const gl_str &my_type, uint32 generation) {
+        object(const gl_str &my_type, uint32 generation) noexcept {
             this->my_type.type_name = my_type;
             this->my_type.generation = generation;
             this->constructed_obj = true;
