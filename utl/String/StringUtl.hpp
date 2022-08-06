@@ -10,7 +10,7 @@
 namespace MXC::StringUtl {
 
     template<class StringContainer = std::vector<gl_str>>
-    class StringSplitter : public object {
+    class [[deprecated("Use Split function in String::Utl")]] StringSplitter : public object {
     public:
         StringSplitter() : object("MXC::StringUtl::StringSplitter", 1) {}
 
@@ -41,7 +41,8 @@ namespace MXC::StringUtl {
         }
 
         static void inline
-        Split(const char *const cstyle_str, const char *const delimiters, StringContainer &des, size_t exit_length = 0) {
+        Split(const char *const cstyle_str, const char *const delimiters, StringContainer &des,
+              size_t exit_length = 0) {
             gl_str buffer;
             char *p = (char *) cstyle_str;
             bool size_check = exit_length != 0;
@@ -65,5 +66,48 @@ namespace MXC::StringUtl {
             }
         }
     };
+
+    template<class StringContainer = std::vector<gl_str>>
+    static void inline
+    Split(const gl_str &str, const gl_str &delimiters, StringContainer &des) {
+        gl_str buffer;
+        for (const auto ch: str) {
+            if (delimiters.find(ch) != gl_str::npos) {
+                des.push_back(buffer);
+                buffer.clear();
+            } else
+                buffer += ch;
+        }
+    }
+
+    template<class StringContainer = std::vector<gl_str>>
+    static void inline
+    Split(const char *const cstyle_str, const char *const delimiters, StringContainer &des, size_t exit_length = 0) {
+        gl_str buffer;
+        char *p = (char *) cstyle_str;
+        bool size_check = exit_length != 0;
+        size_t cur_p = 0;
+        auto is_delimiter = [&delimiters](char c) -> bool {
+            char *p = (char *) delimiters;
+            for (; *p; ++p) {
+                if (*p == c) return true;
+            }
+            return false;
+        };
+        for (; *p; ++p, ++cur_p) {
+            if (size_check && cur_p == exit_length) {
+                break;
+            }
+            if (is_delimiter(*p)) {
+                des.push_back(buffer);
+                buffer.clear();
+            } else
+                buffer += *p;
+        }
+    }
+
+    template<class IterableStringContainer = std::vector<gl_str>>
+    static void inline
+    Join(const char * const str, IterableStringContainer& container) {}
 }
 #endif //MXC_STRING_UTL_HPP
