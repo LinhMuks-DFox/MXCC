@@ -17,13 +17,8 @@ int main() {
             std::cout << str << std::endl;
         }
     };
-    MXC::StringUtl::StringSplitter<>::Split(org_string, delimieters, des, 10);
-    str_vec_print();
-    des.clear();
-    MXC::StringUtl::StringSplitter<>::Split(std::string(org_string), delimieters, des);
-    str_vec_print();
-    des.clear();
-    MXC::StringUtl::StringSplitter<>::Split(org_string, delimieters, des);
+
+    Split(org_string, delimieters, des, 100 );
     str_vec_print();
     des.clear();
     return 0;
