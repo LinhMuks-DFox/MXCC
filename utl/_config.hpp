@@ -11,7 +11,7 @@
 #endif
 
 // ensure cpp std14up is usable
-#if __cplusplus < 201403L
+#if __cplusplus < 202002L
 #error "At least C++14 or higher required"
 #endif
 
