@@ -83,26 +83,25 @@ namespace MXC::StringUtl {
     template<class StringContainer = std::vector<gl_str>>
     static void inline
     Split(const char *const cstyle_str, const char *const delimiters, StringContainer &des, size_t exit_length = 0) {
-        gl_str buffer;
-        char *p = (char *) cstyle_str;
+        std::stringstream buffer;
         bool size_check = exit_length != 0;
         size_t cur_p = 0;
-        auto is_delimiter = [&delimiters](char c) -> bool {
-            char *p = (char *) delimiters;
-            for (; *p; ++p) {
-                if (*p == c) return true;
-            }
-            return false;
+        std::unordered_set<char> delimiters_set;
+        for (auto *p = const_cast<char *>(delimiters) ; *p; ++p) {
+            delimiters_set.insert(*p);
+        }
+        auto is_delimiter = [&delimiters_set](char c) -> bool {
+            return delimiters_set.find(c) != std::end(delimiters_set);
         };
-        for (; *p; ++p, ++cur_p) {
+        for (char *p = const_cast<char *> (cstyle_str); *p; ++p, ++cur_p) {
             if (size_check && cur_p == exit_length) {
                 break;
             }
             if (is_delimiter(*p)) {
-                des.push_back(buffer);
+                des.push_back(buffer.str());
                 buffer.clear();
             } else
-                buffer += *p;
+                buffer << *p;
         }
     }
 
