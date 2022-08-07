@@ -7,5 +7,6 @@ using namespace MXC;
 using namespace std;
 
 int main() {
+    std::cout << "这是一个测试";
     return 0;
 }
