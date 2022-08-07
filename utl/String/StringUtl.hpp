@@ -107,7 +107,7 @@ namespace MXC::StringUtl {
     }
 
     template<class IterableStringContainer = std::vector<gl_str>>
-    static void inline
+    static gl_str inline
     Join(const char * const str, IterableStringContainer& container) {}
 }
 #endif //MXC_STRING_UTL_HPP
