@@ -10,7 +10,8 @@ namespace MXC {
         uint32 generation;
 
         friend bool operator==(const Type &type, const Type &self) noexcept {
-            return type.type_name == self.type_name && type.generation == self.generation;
+            return type.type_name == self.type_name &&
+                   type.generation == self.generation;
         }
 
         friend bool operator!=(const Type &type, const Type &self) noexcept {
@@ -66,8 +67,8 @@ namespace MXC {
             return reinterpret_cast<size_t>(this);
         }
 
-        friend std::ostream &
-        operator<<(std::ostream &os, const MXC::object &obj) noexcept {
+        friend std::ostream &operator<<(std::ostream &os,
+                                        const MXC::object &obj) noexcept {
             os << obj.to_str();
             return os;
         }
@@ -77,9 +78,7 @@ namespace MXC {
         return obj.to_str();
     }
 
-    auto get_hash = [](const object &obj) -> size_t {
-        return obj.get_hash();
-    };
+    auto get_hash = [](const object &obj) -> size_t { return obj.get_hash(); };
 
     template<typename T>
     struct is_object {

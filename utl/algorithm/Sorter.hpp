@@ -8,15 +8,15 @@
 #include "_sorter_base.hpp"
 
 namespace MXC::Algorithm {
-    template<typename T> requires std::three_way_comparable<T> || CSortable<T>
+    template<typename T>
+        requires std::three_way_comparable<T> || CSortable<T>
     class QuickSorter : public Sorter<T> {
     public:
-        QuickSorter(std::iterator<T> begin, std::iterator<T> end) : Sorter<T>(
-                "MXC::Algorithm::QuickSorter", 2) {
-        }
+        QuickSorter(std::iterator<T> begin, std::iterator<T> end)
+            : Sorter<T>("MXC::Algorithm::QuickSorter", 2) {}
 
     public:
         void sort() final {}
     }
-}
-#endif //MXC_SORTER_HPP
+}// namespace MXC::Algorithm
+#endif//MXC_SORTER_HPP

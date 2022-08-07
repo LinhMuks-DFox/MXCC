@@ -12,6 +12,7 @@ namespace MXC::Container {
     protected:
         IList() : object("MXC::Container::IList", 1) {}
         IList(gl_str t_name, uint64 gen) : object(t_name, gen) {}
+
     public:
         virtual inline const T &at_index(int64 idx) const = 0;
 

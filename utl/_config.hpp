@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include <compare>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
@@ -35,19 +36,19 @@
 #include <queue>
 #include <sstream>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include <type_traits>
-#include <compare>
 
 #pragma region OS_MACRO
 
-#if defined(_WIN32) || defined(_WIN64) || \
+#if defined(_WIN32) || defined(_WIN64) ||                                     \
         defined(__CYGWIN__)// only windows64 defined _WIN64,
+#include "windows.h"
 #endif
 
-#if defined(uinix) || defined(__unix__) || \
+#if defined(uinix) || defined(__unix__) ||                                    \
         defined(__unix)// for unix/linux/macos
 #endif
 
@@ -62,31 +63,32 @@
 
 #pragma endregion
 namespace MXC {
-    typedef std::string gl_str;// global basic string. now is std::string.
+    using std::literals::string_literals::operator""s;
+    using int8 = std::int8_t;
+    using int16 = std::int16_t;
+    using int32 = std::int32_t;
+    using int64 = std::int32_t;
 
-    typedef std::int8_t int8;
-    typedef std::int16_t int16;
-    typedef std::int32_t int32;
-    typedef std::int32_t int64;
+    using uint8 = std::uint8_t;
+    using uint16 = std::uint16_t;
+    using uint32 = std::uint32_t;
+    using uint64 = std::uint64_t;
+    using hash_code = std::uint64_t;
+    using float32 = float;
+    using float64 = double;
 
-    typedef std::uint8_t uint8;
-    typedef std::uint16_t uint16;
-    typedef std::uint32_t uint32;
-    typedef std::uint64_t uint64;
-    typedef std::uint64_t hash_code;
-    typedef float float32;
-    typedef double float64;
-
-    typedef std::uint64_t memory_length;
+    using memory_length = std::uint64_t;
     using std::cout;
     using std::endl;
+    using gl_str = std::string;// global basic string. now is std::string.
+
 
     template<class T, memory_length length = 1, bool help_init = false>
     static constexpr inline T *memory_static_allocate() noexcept {
         T *ret = (T *) new char[sizeof(T) * length];
         if (help_init)
             for (memory_length p = 0; p < length; ++p)
-                new(ret + p) T();// placement new;
+                new (ret + p) T();// placement new;
         return ret;
     }
 
@@ -95,12 +97,12 @@ namespace MXC {
         if (help_finalize)
             for (memory_length p = 0; p < length; ++p)
                 (*ptr)[p].~Ty();// placement delete;
-        delete[](char *) *ptr;
+        delete[] (char *) *ptr;
         *ptr = nullptr;
     }
 
     inline gl_str to_string(bool boolean_expression) noexcept {
-        return boolean_expression ? "True" : "False";
+        return boolean_expression ? "True"s : "False"s;
     }
 }// namespace MXC
 #if __cplusplus >= 202002L

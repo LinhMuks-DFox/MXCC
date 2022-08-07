@@ -29,14 +29,13 @@ namespace MXC::Math {
         return std::log(base) / std::log(value);
     }
 
-    static inline float64 quick_mul(const float64 &x, const int64 &N) noexcept {
+    static inline float64 quick_mul(const float64 &x,
+                                    const int64 &N) noexcept {
         float64 ans = 1.0;
         auto n = N;
         auto x_contribute = x;
         while (n > 0) {
-            if (n % 2) {
-                ans *= x_contribute;
-            }
+            if (n % 2) { ans *= x_contribute; }
             x_contribute *= x_contribute;
             n /= 2;
         }
@@ -103,20 +102,17 @@ namespace MXC::Math {
 
     template<uint64 i>
     struct cumulative {
-        enum {
-            value = i + cumulative<i - 1>::value
-        };
+        enum { value = i + cumulative<i - 1>::value };
     };
 
     template<>
     struct cumulative<0> {
-        enum {
-            value = 1
-        };
+        enum { value = 1 };
     };
 
     // Fibonacci<10>
-    template<int N, typename T = unsigned int> requires std::unsigned_integral<T>
+    template<int N, typename T = unsigned int>
+        requires std::unsigned_integral<T>
     struct Fibonacci {
         constexpr static T value =
                 Fibonacci<N - 1, T>::value + Fibonacci<N - 2, T>::value;
@@ -141,8 +137,8 @@ namespace MXC::Math {
     // use difference equation: y(n+2) - y(n+1) -y(n) = 0
     inline size_t fibonacci_get_n(size_t n) {
         auto sqrt5 = sqrt(5);
-        return (1 / sqrt5) * pow(((1 + sqrt5) / 2), n)
-               - (1 / sqrt5) * pow((1 - sqrt5) / 2, n);
+        return (1 / sqrt5) * pow(((1 + sqrt5) / 2), n) -
+               (1 / sqrt5) * pow((1 - sqrt5) / 2, n);
     }
 }// namespace MXC::Math
 #endif//MXC_MATH_HPP

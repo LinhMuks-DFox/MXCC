@@ -5,9 +5,8 @@
 #include "IList.hpp"
 
 #define VECTOR_OBJECT_INIT IList<T>("MXC::Container::Vector", 2)
-#define INDEX_RANGE_CHECK   \
-    if (idx > _size)        \
-        throw Exp::InvalidOperation("index out of range.");
+#define INDEX_RANGE_CHECK                                                     \
+    if (idx > _size) throw Exp::InvalidOperation("index out of range.");
 
 namespace MXC::Container {
 
@@ -17,10 +16,11 @@ namespace MXC::Container {
         T *_arr = nullptr;
         bool _read_only = true;
         int64 _size = 0, _capacity = 0;
+
     public:
         ~Vector() {
             clean();
-            delete[](char *) _arr;
+            delete[] (char *) _arr;
             _arr = nullptr;
             _size = 0;
         }
@@ -50,23 +50,22 @@ namespace MXC::Container {
         Vector &operator=(const Vector<T> &) = delete;
 
         Vector &operator=(Vector &&v) noexcept {
-            if (_arr != nullptr)
-                delete[] (char *) _arr;
+            if (_arr != nullptr) delete[] (char *) _arr;
             _size = v._size;
             _arr = v._arr;
             v._release_source();
         }
 
-        Vector(Vector &&v) noexcept: _arr(v._arr), _size(v._arr),
-                                     _read_only(v._read_only), VECTOR_OBJECT_INIT {
+        Vector(Vector &&v) noexcept
+            : _arr(v._arr), _size(v._arr),
+              _read_only(v._read_only), VECTOR_OBJECT_INIT {
             v._release_source();
         }
 
     private:
         void _resize(int64 new_capacity) {
             auto *t = (T *) new char[sizeof(T) * new_capacity];
-            for (auto i = 0; i < _size; ++i)
-                t[i] = _arr[i];
+            for (auto i = 0; i < _size; ++i) t[i] = _arr[i];
             delete[] (char *) _arr;
             _arr = t;
         }
@@ -101,20 +100,16 @@ namespace MXC::Container {
 
         inline void insert(int64 idx, T &obj) override {
             INDEX_RANGE_CHECK
-            if (_size == _capacity)
-                _resize(2 * _capacity);
-            for (auto i = _size - 1; i >= idx; i--)
-                _arr[i + 1] = _arr[i];
+            if (_size == _capacity) _resize(2 * _capacity);
+            for (auto i = _size - 1; i >= idx; i--) _arr[i + 1] = _arr[i];
             _arr[idx] = std::move(obj);
             _size++;
         }
 
         inline void insert(int64 idx, T &&obj) override {
             INDEX_RANGE_CHECK
-            if (_size == _capacity)
-                _resize(2 * _capacity);
-            for (auto i = _size - 1; i >= idx; i--)
-                _arr[i + 1] = _arr[i];
+            if (_size == _capacity) _resize(2 * _capacity);
+            for (auto i = _size - 1; i >= idx; i--) _arr[i + 1] = _arr[i];
             _arr[idx] = std::move(obj);
             _size++;
         }
@@ -122,8 +117,7 @@ namespace MXC::Container {
         inline T &&remove_at(int64 idx) override {
             INDEX_RANGE_CHECK
             auto ret = std::move(_arr[idx]);
-            for (auto i = idx + 1; i < _size; i++)
-                _arr[i - 1] = _arr[i];
+            for (auto i = idx + 1; i < _size; i++) _arr[i - 1] = _arr[i];
             _size--;
             _check_capacity();
 
@@ -135,50 +129,32 @@ namespace MXC::Container {
         }
 
     public: /* not override Method */
-
         void clean() {
-            for (auto i = 0; i < _size; ++i) {
-                _arr[i].~T();
-            }
+            for (auto i = 0; i < _size; ++i) { _arr[i].~T(); }
             _size = 0;
         }
 
         void init_all() {
-            for (auto i = _size; i < _capacity; ++i) {
-                _arr[i].T();
-            }
+            for (auto i = _size; i < _capacity; ++i) { _arr[i].T(); }
             _size = _capacity;
         }
 
-        [[nodiscard]] inline int64 capacity() const {
-            return this->_capacity;
-        }
+        [[nodiscard]] inline int64 capacity() const { return this->_capacity; }
 
-        [[nodiscard]] inline bool empty() const {
-            return _size == 0;
-        }
+        [[nodiscard]] inline bool empty() const { return _size == 0; }
 
         inline void reserve(int64 size) {
-            if (size > _capacity)
-                return;
+            if (size > _capacity) return;
             _resize(size);
         }
 
-        inline void append(T &obj) {
-            insert(_size, std::move(obj));
-        }
+        inline void append(T &obj) { insert(_size, std::move(obj)); }
 
-        inline void append(T &&obj) {
-            insert(std::move(obj));
-        }
+        inline void append(T &&obj) { insert(std::move(obj)); }
 
-        inline void add_first(T &obj) {
-            insert(0, std::move(obj));
-        }
+        inline void add_first(T &obj) { insert(0, std::move(obj)); }
 
-        inline void add_first(T &&obj) {
-            insert(0, std::move(obj));
-        }
+        inline void add_first(T &&obj) { insert(0, std::move(obj)); }
 
         inline void append(std::initializer_list<T> list) {
             if (_capacity - _size <= list.size())

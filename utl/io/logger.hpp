@@ -11,18 +11,16 @@
 namespace MXC::IO {
     class Logger : public object {
     public:
-        enum LogType : int {
-            Error, Info, Debug, Warn
-        };
+        enum LogType : int { Error, Info, Debug, Warn };
 
     private:
         gl_str _fmt = "[%t]time:<%Y-%M-%D %H:%m:%s>,content:%c ";
         gl_str _path;
         FILE *_log_f = nullptr;
         const std::map<LogType, gl_str> _log_type_convert = {{Error, "FATAL"},
-                                                             {Info,  "INFO"},
+                                                             {Info, "INFO"},
                                                              {Debug, "DEBUG"},
-                                                             {Warn,  "WARN"}};
+                                                             {Warn, "WARN"}};
 
     private:
         void _finalize_file_handle() {
@@ -57,7 +55,7 @@ namespace MXC::IO {
         }
 
         explicit Logger(const gl_str &path, const gl_str &fmt) noexcept
-                : object("MXC::IO::Logger", 1) {
+            : object("MXC::IO::Logger", 1) {
             this->_log_f = fopen(path.c_str(), "w");
             this->_fmt = fmt;
             _path = path;
@@ -66,7 +64,7 @@ namespace MXC::IO {
         explicit Logger() : object("MXC::IO::Logger", 1) {}
 
 
-        Logger(Logger &&logger) noexcept: object("MXC::IO::Logger", 1) {
+        Logger(Logger &&logger) noexcept : object("MXC::IO::Logger", 1) {
             _path = logger._path;
             _log_f = logger._log_f;
             _fmt = logger._fmt;
@@ -114,36 +112,36 @@ namespace MXC::IO {
                 if (c == EOF) break;
                 if (c == '%') {
                     s_res <<
-                          [&s_fmt, &now, &type, &content, this]() -> gl_str {
-                              switch (s_fmt.peek()) {
-                                  case 't':
-                                      return [this, &type]() -> gl_str {
-                                          auto search =
-                                                  this->_log_type_convert.find(type);
-                                          return search != _log_type_convert.end()
-                                                 ? search->second
-                                                 : "UnknownType";
-                                      }();
-                                  case 'D':
-                                      return std::to_string(now->tm_mday);
-                                  case 'H':
-                                      return std::to_string(now->tm_hour);
-                                  case 'm':
-                                      return std::to_string(now->tm_min);
-                                  case 's':
-                                      return std::to_string(now->tm_sec);
-                                  case 'c':
-                                      return content;
-                                  case 'Y':
-                                      return std::to_string(now->tm_year + 1900);
-                                  case 'M':
-                                      return std::to_string(now->tm_mon + 1);
-                                  case '%':
-                                      return "%";
-                                  default:
-                                      return "Unknown Log Format.";
-                              }
-                          }();
+                            [&s_fmt, &now, &type, &content, this]() -> gl_str {
+                        switch (s_fmt.peek()) {
+                            case 't':
+                                return [this, &type]() -> gl_str {
+                                    auto search =
+                                            this->_log_type_convert.find(type);
+                                    return search != _log_type_convert.end()
+                                                   ? search->second
+                                                   : "UnknownType";
+                                }();
+                            case 'D':
+                                return std::to_string(now->tm_mday);
+                            case 'H':
+                                return std::to_string(now->tm_hour);
+                            case 'm':
+                                return std::to_string(now->tm_min);
+                            case 's':
+                                return std::to_string(now->tm_sec);
+                            case 'c':
+                                return content;
+                            case 'Y':
+                                return std::to_string(now->tm_year + 1900);
+                            case 'M':
+                                return std::to_string(now->tm_mon + 1);
+                            case '%':
+                                return "%";
+                            default:
+                                return "Unknown Log Format.";
+                        }
+                    }();
                     s_fmt.ignore();// to skip the fmt char.
                     continue;
                 }

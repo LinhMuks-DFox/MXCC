@@ -29,7 +29,7 @@ namespace MXC::Coding {
 
             _huffman_tree_node(char ch, uint64 fre, _huffman_tree_node *left,
                                _huffman_tree_node *right)
-                    : left(left), right(right), freq(fre), symbol(ch) {}
+                : left(left), right(right), freq(fre), symbol(ch) {}
 
             _huffman_tree_node() = default;
 
@@ -58,7 +58,7 @@ namespace MXC::Coding {
         HuffmanTree() : object("MXC::Coding::HuffmanTree", 1) {}
 
         explicit HuffmanTree(std::istream &in)
-                : object("MXC::Coding::HuffmanTree", 1) {
+            : object("MXC::Coding::HuffmanTree", 1) {
             std::unordered_map<char, uint64> f_table;
             word_frequency_stat_and_build(in, f_table);
         }
@@ -67,7 +67,7 @@ namespace MXC::Coding {
         void
         build_me(const std::unordered_map<char, uint64> &frequency_table) {
             std::priority_queue<node *, std::vector<node *>, node_cmp> pq;
-            for (auto pair: frequency_table) {
+            for (auto pair : frequency_table) {
                 pq.push(new node(pair.first, pair.second, nullptr, nullptr));
             }
             while (pq.size() != 1) {
@@ -110,7 +110,7 @@ namespace MXC::Coding {
         }
 
         void _build_decode_map() {
-            for (auto &[key, value]: _encode_map) _decode_map[value] = key;
+            for (auto &[key, value] : _encode_map) _decode_map[value] = key;
         }
 
     public:
@@ -130,7 +130,7 @@ namespace MXC::Coding {
         }
 
         HuffmanTree(HuffmanTree &&tree) noexcept
-                : object("MXC::Coding::HuffmanTree", 1) {
+            : object("MXC::Coding::HuffmanTree", 1) {
             if (this != &tree) {
                 this->_decode_map = std::move(tree._decode_map);
                 this->_encode_map = std::move(tree._encode_map);
@@ -155,10 +155,10 @@ namespace MXC::Coding {
                 return _encode_map.find(c) != _encode_map.end();
             };
             std::stringstream ss;
-            for (char i: input) {
+            for (char i : input) {
                 if (contains(i)) ss << _encode_map[i];
                 else {
-                    throw Exp::EncodeError(gl_str {"can not encode char:"} + i);
+                    throw Exp::EncodeError(gl_str{"can not encode char:"} + i);
                 }
             }
             ss << std::flush;
@@ -176,7 +176,7 @@ namespace MXC::Coding {
                 ss << _decode_map[bytes];
                 return ss.str();
             }
-            for (auto c: bytes) {
+            for (auto c : bytes) {
                 if (contain(cur)) {
                     ss << this->_decode_map[cur];
                     cur = "";
@@ -191,13 +191,13 @@ namespace MXC::Coding {
             std::stringstream sb;
             sb << "{\"encode\":"
                << "{";
-            for (auto &[key, value]: _encode_map)
+            for (auto &[key, value] : _encode_map)
                 sb << "\"" << key << "\"" << ':' << "\"" << value << "\""
                    << "," << std::flush;
             sb << "},";
             sb << "\"decode\":"
                << "{";
-            for (auto &[key, value]: _decode_map)
+            for (auto &[key, value] : _decode_map)
                 sb << "\"" << key << "\"" << ':' << "\"" << value << "\""
                    << "," << std::flush;
             sb << "}}";

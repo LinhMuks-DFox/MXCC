@@ -18,7 +18,7 @@ namespace MXC::Math {
         KaratsubaArray() { _integer_part.push_back(0); }
 
         explicit KaratsubaArray(const gl_str &str) {
-            for (auto ch: str) {
+            for (auto ch : str) {
                 _integer_part.push_back(char_int_to_int(ch));
             }
         }

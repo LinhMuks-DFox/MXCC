@@ -3,7 +3,8 @@
 //
 #include "../../logger.hpp"
 
-using namespace MXC; using namespace std;
+using namespace MXC;
+using namespace std;
 
 int main() {
     IO::Logger logger(R"(./logger_test.log)");
