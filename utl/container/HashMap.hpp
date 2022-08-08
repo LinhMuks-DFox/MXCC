@@ -11,7 +11,7 @@ namespace MXC::Container {
                                   obj.get_hash()
                                   } -> std::convertible_to<HashCode>;
                           };
-
+    class HashMap : public object{};
 
 }
 #endif//MXC_HASHMAP_HPP
