@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
-project(MXC)
+project(MXC_compile_tester)
 set(CMAKE_CXX_STANDARD 20)
 
-add_library( MXC SHARED tester_main.cpp
+add_library(MXC SHARED tester_main.cpp
         utl/MXC.hpp
         utl/_object.hpp
         utl/_config.hpp
