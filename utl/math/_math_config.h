@@ -16,22 +16,22 @@
 
 namespace MXC::Math {
 #pragma region constant
-    static const constexpr float64 EPSILON{1e-8};
+    static const constexpr dfloat EPSILON{1e-8};
 
-    static const constexpr float64 E{2.71828182845904523536L};// exp
+    static const constexpr dfloat E{2.71828182845904523536L};// exp
 
-    static const constexpr float64 PI{3.14159265358979323846L};// pi
+    static const constexpr dfloat PI{3.14159265358979323846L};// pi
 
-    static const constexpr float64 PI_2{1.57079632679489661923L};// pi / 2
+    static const constexpr dfloat PI_2{1.57079632679489661923L};// pi / 2
 
-    static const constexpr float64 PI_4{0.78539816339744830961L};// pi / 4
+    static const constexpr dfloat PI_4{0.78539816339744830961L};// pi / 4
 
-    static const constexpr float64 SQRT_2{1.41421356237309504880L};// sqrt{2}
+    static const constexpr dfloat SQRT_2{1.41421356237309504880L};// sqrt{2}
 
-    static const constexpr float64 SQRT_1_2{
+    static const constexpr dfloat SQRT_1_2{
             0.70710678118654752440L};// 1 / sqrt{2}
 
-    static const constexpr float64 LOG2_E{1.44269504088896340736L};// log2(E}
+    static const constexpr dfloat LOG2_E{1.44269504088896340736L};// log2(E}
 #pragma endregion
 
 #pragma region IEEE754 Special Values
@@ -78,13 +78,13 @@ namespace MXC::Math {
 
 #pragma endregion
 
-    static constexpr inline bool float64_eq(const float64 &a,
-                                            const float64 &b) noexcept {
+    static constexpr inline bool float64_eq(const dfloat &a,
+                                            const dfloat &b) noexcept {
         return (a - b) < EPSILON;
     }
 
-    static constexpr inline bool float64_neq(const float64 &a,
-                                             const float64 &b) noexcept {
+    static constexpr inline bool float64_neq(const dfloat &a,
+                                             const dfloat &b) noexcept {
         return !(float64_eq(a, b));
     }
 

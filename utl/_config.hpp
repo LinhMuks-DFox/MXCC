@@ -10,9 +10,9 @@
 #error "C++ complier required."
 #endif
 
-// ensure cpp std14up is usable
+// ensure cpp std20up is usable
 #if __cplusplus < 202002L
-#error "At least C++14 or higher required"
+#error "At least C++20 or higher required"
 #endif
 
 #include <algorithm>
@@ -75,7 +75,7 @@ namespace MXC {
     using uint64 = std::uint64_t;
     using hash_code = std::uint64_t;
     using float32 = float;
-    using float64 = double;
+    using dfloat = double;
 
     using memory_length = std::uint64_t;
     using std::cout;
