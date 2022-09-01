@@ -1,3 +1,0 @@
-target()
-
-target_end()
