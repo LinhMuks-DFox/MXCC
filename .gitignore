@@ -1,9 +1,10 @@
-/.idea/
+.idea/
 *.log
 cmake*/
 *build*/
 /.vs
 .vscode
+.xmake/
 out
 CMakeSettings.json
 /.clang-format
