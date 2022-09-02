@@ -21,7 +21,6 @@ namespace MXC::Coding {
      * */
     class HuffmanTree : object {
     private:
-        typedef std::pair<char, int> frequency_pair;// symbol, frequency
         typedef struct _huffman_tree_node {
             _huffman_tree_node *left = nullptr, *right = nullptr;
             uint64 freq = 0;
@@ -35,7 +34,6 @@ namespace MXC::Coding {
 
             ~_huffman_tree_node() = default;
         } node;
-
         struct node_cmp {
             bool operator()(node *i, node *j) { return i->freq > j->freq; }
         };
