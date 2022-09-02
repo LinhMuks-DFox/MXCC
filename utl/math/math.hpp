@@ -14,7 +14,8 @@ namespace MXC::Math {
 #pragma region logarithm
 
 
-    [[deprecated("Untested yet.")]] static inline dfloat log_base(const dfloat &value, const dfloat &base) {
+    [[deprecated("Untested yet.")]] static inline dfloat log_base(const dfloat &value,
+                                                                  const dfloat &base) {
         /*!
          * log function in MXC return log value same as std::log()
          * when value eq 1, return 0.0
@@ -28,8 +29,7 @@ namespace MXC::Math {
         return std::log(base) / std::log(value);
     }
 
-    static inline dfloat quick_mul(const dfloat &x,
-                                    const int64 &N) noexcept {
+    static inline dfloat quick_mul(const dfloat &x, const int64 &N) noexcept {
         dfloat ans = 1.0;
         auto n = N;
         auto x_contribute = x;

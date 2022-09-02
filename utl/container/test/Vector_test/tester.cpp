@@ -8,9 +8,7 @@ private:
     int *arr = nullptr;
 
 public:
-    friend inline ostream &operator<<(ostream &ost, const Foo &f) {
-        return ost;
-    }
+    friend inline ostream &operator<<(ostream &ost, const Foo &f) { return ost; }
 };
 
 template<class T = int>
@@ -35,7 +33,7 @@ void unit_test1() {
 
 void unit_test2() {
     using MXC::Container::Vector;
-    Vector<int> v = {1, 2, 3, 4, 5, 6, 7, 8};
+    Vector<int> v = { 1, 2, 3, 4, 5, 6, 7, 8 };
     show_vector(v);
 }
 

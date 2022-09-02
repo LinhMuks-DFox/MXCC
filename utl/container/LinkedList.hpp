@@ -17,10 +17,10 @@ namespace MXC::Container {
             node *next;
 
             ~node() { delete ele; }
-        } _dummy_head = {nullptr, nullptr};
+        } _dummy_head = { nullptr, nullptr };
 
-        uint64 _size{0};
-        bool _readonly{false};
+        uint64 _size{ 0 };
+        bool _readonly{ false };
 
     private:
         void clear() { delete_nodes(_dummy_head.next); }
@@ -39,7 +39,7 @@ namespace MXC::Container {
         }
 
     public:
-        LinkedList() : object("MXC::Container::LinkedList", 1) {}
+        LinkedList() : object("MXC::Container::LinkedList", 1) { }
 
         LinkedList(const LinkedList &) = delete;
 

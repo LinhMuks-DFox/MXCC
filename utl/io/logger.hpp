@@ -17,10 +17,10 @@ namespace MXC::IO {
         gl_str _fmt = "[%t]time:<%Y-%M-%D %H:%m:%s>,content:%c ";
         gl_str _path;
         FILE *_log_f = nullptr;
-        const std::map<LogType, gl_str> _log_type_convert = {{Error, "FATAL"},
-                                                             {Info, "INFO"},
-                                                             {Debug, "DEBUG"},
-                                                             {Warn, "WARN"}};
+        const std::map<LogType, gl_str> _log_type_convert = { { Error, "FATAL" },
+                                                              { Info, "INFO" },
+                                                              { Debug, "DEBUG" },
+                                                              { Warn, "WARN" } };
 
     private:
         void _finalize_file_handle() {
@@ -41,16 +41,14 @@ namespace MXC::IO {
             if (res == EOF) {
                 fflush(_log_f);
                 fclose(_log_f);
-                throw Exp::EOFError("Log file(" + _path +
-                                    ") EOF, cannot log anymore.");
+                throw Exp::EOFError("Log file(" + _path + ") EOF, cannot log anymore.");
             }
         }
 
     public:
         explicit Logger(const gl_str &path) : object("MXC::IO::Logger", 1) {
             this->_log_f = fopen(path.c_str(), "w");
-            if (_log_f == nullptr)
-                throw Exp::IOError("Can not open file:" + _path);
+            if (_log_f == nullptr) throw Exp::IOError("Can not open file:" + _path);
             _path = path;
         }
 
@@ -61,7 +59,7 @@ namespace MXC::IO {
             _path = path;
         }
 
-        explicit Logger() : object("MXC::IO::Logger", 1) {}
+        explicit Logger() : object("MXC::IO::Logger", 1) { }
 
 
         Logger(Logger &&logger) noexcept : object("MXC::IO::Logger", 1) {
@@ -101,8 +99,7 @@ namespace MXC::IO {
         void set_format(const gl_str &fmt) noexcept { _fmt = fmt; }
 
     private:
-        [[nodiscard]] gl_str _build_content(LogType type,
-                                            const gl_str &content) const {
+        [[nodiscard]] gl_str _build_content(LogType type, const gl_str &content) const {
             std::time_t t = std::time(nullptr);// get time now
             std::tm *now = std::localtime(&t);
             std::stringstream s_res;
@@ -111,13 +108,11 @@ namespace MXC::IO {
                 char c = (char) s_fmt.get();
                 if (c == EOF) break;
                 if (c == '%') {
-                    s_res <<
-                            [&s_fmt, &now, &type, &content, this]() -> gl_str {
+                    s_res << [&s_fmt, &now, &type, &content, this]() -> gl_str {
                         switch (s_fmt.peek()) {
                             case 't':
                                 return [this, &type]() -> gl_str {
-                                    auto search =
-                                            this->_log_type_convert.find(type);
+                                    auto search = this->_log_type_convert.find(type);
                                     return search != _log_type_convert.end()
                                                    ? search->second
                                                    : "UnknownType";

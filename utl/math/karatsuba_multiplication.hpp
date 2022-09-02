@@ -18,17 +18,14 @@ namespace MXC::Math {
         KaratsubaArray() { _integer_part.push_back(0); }
 
         explicit KaratsubaArray(const gl_str &str) {
-            for (auto ch : str) {
-                _integer_part.push_back(char_int_to_int(ch));
-            }
+            for (auto ch : str) { _integer_part.push_back(char_int_to_int(ch)); }
         }
 
     public:
         [[nodiscard]] uint64 at(size_t i) const {
             if (i > _integer_part.size())
                 throw Exp::IndexError("Index i is out of range. range: 0~" +
-                                      std::to_string(i) +
-                                      ", but:" + std::to_string(i));
+                                      std::to_string(i) + ", but:" + std::to_string(i));
             return _integer_part[i];
         }
 

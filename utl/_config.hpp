@@ -43,13 +43,12 @@
 
 #pragma region OS_MACRO
 
-#if defined(_WIN32) || defined(_WIN64) ||                                     \
+#if defined(_WIN32) || defined(_WIN64) ||                                                \
         defined(__CYGWIN__)// only windows64 defined _WIN64,
 #include "windows.h"
 #endif
 
-#if defined(uinix) || defined(__unix__) ||                                    \
-        defined(__unix)// for unix/linux/macos
+#if defined(uinix) || defined(__unix__) || defined(__unix)// for unix/linux/macos
 #endif
 
 #if defined(__APPLE__) || defined(__MACH__)// For mac-os
@@ -87,8 +86,7 @@ namespace MXC {
     static constexpr inline T *memory_static_allocate() noexcept {
         T *ret = (T *) new char[sizeof(T) * length];
         if (help_init)
-            for (memory_length p = 0; p < length; ++p)
-                new (ret + p) T();// placement new;
+            for (memory_length p = 0; p < length; ++p) new (ret + p) T();// placement new;
         return ret;
     }
 

@@ -9,7 +9,7 @@
 namespace MXC::Container {
     template<typename T>
     class JumpList : public IList<T> {
-        JumpList() : IList<T>("MXC::Container::JumpList", 2) {}
+        JumpList() : IList<T>("MXC::Container::JumpList", 2) { }
     };
 }// namespace MXC::Container
 #endif//MXC_JUMPLIST_HPP

@@ -13,10 +13,10 @@ namespace MXC::Algorithm {
     class QuickSorter : public Sorter<T> {
     public:
         QuickSorter(std::iterator<T> begin, std::iterator<T> end)
-            : Sorter<T>("MXC::Algorithm::QuickSorter", 2) {}
+            : Sorter<T>("MXC::Algorithm::QuickSorter", 2) { }
 
     public:
-        void sort() final {}
+        void sort() final { }
     }
 }// namespace MXC::Algorithm
 #endif//MXC_SORTER_HPP

@@ -29,7 +29,7 @@ namespace MXC::Coding {
 
             _huffman_tree_node(char ch, uint64 fre, _huffman_tree_node *left,
                                _huffman_tree_node *right)
-                : left(left), right(right), freq(fre), symbol(ch) {}
+                : left(left), right(right), freq(fre), symbol(ch) { }
 
             _huffman_tree_node() = default;
 
@@ -49,23 +49,20 @@ namespace MXC::Coding {
     private:
         void inline _assert_built(const gl_str &input = "") const {
             if (!_is_built)
-                throw Exp::InvalidOperation(
-                        "Cannot encode/decode:" + input +
-                        ", HuffmanTree object was not built yet.");
+                throw Exp::InvalidOperation("Cannot encode/decode:" + input +
+                                            ", HuffmanTree object was not built yet.");
         }
 
     public:
-        HuffmanTree() : object("MXC::Coding::HuffmanTree", 1) {}
+        HuffmanTree() : object("MXC::Coding::HuffmanTree", 1) { }
 
-        explicit HuffmanTree(std::istream &in)
-            : object("MXC::Coding::HuffmanTree", 1) {
+        explicit HuffmanTree(std::istream &in) : object("MXC::Coding::HuffmanTree", 1) {
             std::unordered_map<char, uint64> f_table;
             word_frequency_stat_and_build(in, f_table);
         }
 
     public:
-        void
-        build_me(const std::unordered_map<char, uint64> &frequency_table) {
+        void build_me(const std::unordered_map<char, uint64> &frequency_table) {
             std::priority_queue<node *, std::vector<node *>, node_cmp> pq;
             for (auto pair : frequency_table) {
                 pq.push(new node(pair.first, pair.second, nullptr, nullptr));
@@ -86,8 +83,8 @@ namespace MXC::Coding {
             _is_built = true;
         }
 
-        void word_frequency_stat_and_build(
-                std::istream &in, std::unordered_map<char, uint64> &table) {
+        void word_frequency_stat_and_build(std::istream &in,
+                                           std::unordered_map<char, uint64> &table) {
             word_frequency_stat(in, table);
             build_me(table);
         }
@@ -102,9 +99,7 @@ namespace MXC::Coding {
 
         void _build_encode_map(node *node, const gl_str &str) {
             if (node == nullptr) return;
-            if (!node->left && !node->right) {
-                _encode_map[node->symbol] = str;
-            }
+            if (!node->left && !node->right) { _encode_map[node->symbol] = str; }
             _build_encode_map(node->left, str + "0");
             _build_encode_map(node->right, str + "1");
         }
@@ -129,8 +124,7 @@ namespace MXC::Coding {
             return *this;
         }
 
-        HuffmanTree(HuffmanTree &&tree) noexcept
-            : object("MXC::Coding::HuffmanTree", 1) {
+        HuffmanTree(HuffmanTree &&tree) noexcept : object("MXC::Coding::HuffmanTree", 1) {
             if (this != &tree) {
                 this->_decode_map = std::move(tree._decode_map);
                 this->_encode_map = std::move(tree._encode_map);
@@ -139,9 +133,7 @@ namespace MXC::Coding {
         }
 
     public:
-        [[nodiscard]] gl_str to_str() const noexcept override {
-            return to_json_string();
-        }
+        [[nodiscard]] gl_str to_str() const noexcept override { return to_json_string(); }
 
     public:
         gl_str encode(char c) {
@@ -157,9 +149,7 @@ namespace MXC::Coding {
             std::stringstream ss;
             for (char i : input) {
                 if (contains(i)) ss << _encode_map[i];
-                else {
-                    throw Exp::EncodeError(gl_str{"can not encode char:"} + i);
-                }
+                else { throw Exp::EncodeError(gl_str{ "can not encode char:" } + i); }
             }
             ss << std::flush;
             return ss.str();
@@ -204,14 +194,11 @@ namespace MXC::Coding {
             return sb.str();
         }
 
-        void dump_tree_in_json_to(std::ofstream &out) const {
-            out << to_json_string();
-        }
+        void dump_tree_in_json_to(std::ofstream &out) const { out << to_json_string(); }
 
     public:
-        static void
-        word_frequency_stat(std::istream &in,
-                            std::unordered_map<char, uint64> &table) {
+        static void word_frequency_stat(std::istream &in,
+                                        std::unordered_map<char, uint64> &table) {
             while (in.good()) {
                 char c = (char) in.get();
                 if (c == EOF) break;

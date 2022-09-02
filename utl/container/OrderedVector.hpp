@@ -7,5 +7,5 @@
 
 #include "Vector.hpp"
 
-namespace MXC::Container {}
+namespace MXC::Container { }
 #endif//MXC_ORDERED_VECTOR_HPP

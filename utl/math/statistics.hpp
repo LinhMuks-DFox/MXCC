@@ -7,5 +7,5 @@
 
 #include "_math_config.h"
 
-namespace MXC::Math {}
+namespace MXC::Math { }
 #endif//MXC_STATISTICS_HPP

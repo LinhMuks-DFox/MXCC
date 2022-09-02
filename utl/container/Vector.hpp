@@ -5,7 +5,7 @@
 #include "IList.hpp"
 
 #define VECTOR_OBJECT_INIT IList<T>("MXC::Container::Vector", 2)
-#define INDEX_RANGE_CHECK                                                     \
+#define INDEX_RANGE_CHECK                                                                \
     if (idx > _size) throw Exp::InvalidOperation("index out of range.");
 
 namespace MXC::Container {
@@ -57,8 +57,7 @@ namespace MXC::Container {
         }
 
         Vector(Vector &&v) noexcept
-            : _arr(v._arr), _size(v._arr),
-              _read_only(v._read_only), VECTOR_OBJECT_INIT {
+            : _arr(v._arr), _size(v._arr), _read_only(v._read_only), VECTOR_OBJECT_INIT {
             v._release_source();
         }
 
@@ -124,9 +123,7 @@ namespace MXC::Container {
             return std::move(ret);
         }
 
-        [[nodiscard]] inline int64 size() const override {
-            return this->_size;
-        }
+        [[nodiscard]] inline int64 size() const override { return this->_size; }
 
     public: /* not override Method */
         void clean() {
@@ -157,8 +154,7 @@ namespace MXC::Container {
         inline void add_first(T &&obj) { insert(0, std::move(obj)); }
 
         inline void append(std::initializer_list<T> list) {
-            if (_capacity - _size <= list.size())
-                _resize(_capacity + 2 * list.size());
+            if (_capacity - _size <= list.size()) _resize(_capacity + 2 * list.size());
             if (empty()) {
                 reserve(list.size());
                 std::copy(std::begin(list), std::end(list), _arr);

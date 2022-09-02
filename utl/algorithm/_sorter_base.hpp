@@ -21,10 +21,10 @@ namespace MXC::Algorithm {
         requires std::three_way_comparable<T> || CSortable<T>
     class Sorter : public object {
     protected:
-        Sorter(gl_str &name, uint32 gen) : object(std::move(name), gen) {}
+        Sorter(gl_str &name, uint32 gen) : object(std::move(name), gen) { }
 
     public:
-        Sorter() : object("MXC::Algorithm::Sorter", 1) {}
+        Sorter() : object("MXC::Algorithm::Sorter", 1) { }
 
         virtual void sort() = 0;
 

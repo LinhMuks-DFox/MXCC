@@ -10,8 +10,7 @@ namespace MXC {
         uint32 generation;
 
         friend bool operator==(const Type &type, const Type &self) noexcept {
-            return type.type_name == self.type_name &&
-                   type.generation == self.generation;
+            return type.type_name == self.type_name && type.generation == self.generation;
         }
 
         friend bool operator!=(const Type &type, const Type &self) noexcept {
@@ -55,13 +54,9 @@ namespace MXC {
             this->constructed_obj = true;
         }
 
-        [[nodiscard]] virtual gl_str to_str() const noexcept {
-            return my_type.type_name;
-        }
+        [[nodiscard]] virtual gl_str to_str() const noexcept { return my_type.type_name; }
 
-        [[nodiscard]] virtual Type get_type() const noexcept {
-            return this->my_type;
-        }
+        [[nodiscard]] virtual Type get_type() const noexcept { return this->my_type; }
 
         [[nodiscard]] virtual MXC::hash_code get_hash() const noexcept {
             return reinterpret_cast<size_t>(this);
@@ -74,9 +69,7 @@ namespace MXC {
         }
     };
 
-    static inline gl_str to_string(const object &obj) noexcept {
-        return obj.to_str();
-    }
+    static inline gl_str to_string(const object &obj) noexcept { return obj.to_str(); }
 
     auto get_hash = [](const object &obj) -> size_t { return obj.get_hash(); };
 

@@ -18,9 +18,7 @@ namespace MXC::Math::Linear {
             return;
         }
         double delta = (end - start) / (num - 1);
-        for (int i = 0; i < num - 1; ++i) {
-            linear_spaced.push_back(start + delta * i);
-        }
+        for (int i = 0; i < num - 1; ++i) { linear_spaced.push_back(start + delta * i); }
         linear_spaced.push_back(end);
         // I want to ensure that start and end
         // are exactly the same as the input

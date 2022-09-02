@@ -27,7 +27,7 @@ add_library(MXC SHARED
 
         String/StringUtl.hpp
         String/String.hpp
-)
+        )
 target_include_directories(MXC PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 set_target_properties(MXC PROPERTIES LINKER_LANGUAGE CXX)
 
